@@ -1,0 +1,153 @@
+/* NAVBAR ELEGANTE Y FIJA */
+.navbar-sg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0.8rem 2rem;
+  min-height: 64px;
+  z-index: 1000;
+
+  /* Fondo sólido fijo */
+  background: #1e293b; /* azul navy elegante */
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+/* --- Título que contiene el logo y el texto --- */
+.navbar-title-logo {
+  display: flex; /* Convierte el h1 en un contenedor flexible */
+  align-items: center; /* Alinea logo y texto verticalmente */
+  margin: 0 0 0 0.7rem; /* Margen izquierdo (separa del botón hamburguesa) */
+  padding: 0;
+}
+
+/* Imagen del logo */
+.navbar-logo-image {
+  height: 2.6rem; /* Tamaño ajustable */
+  width: auto;
+  margin-right: 8px; /* Espacio entre logo y texto */
+  filter: brightness(0) invert(1); /* Lo vuelve blanco si es oscuro */
+}
+
+/* Texto "Servicio Técnico" */
+.navbar-title-text {
+  color: #fff;
+  font-size: 1.7rem; 
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin: 0; 
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(255,255,255,0.15);
+}
+/* --- Fin título --- */
+
+/* Contenedores */
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Links */
+.navbar-sg ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-sg a {
+  position: relative;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.3rem 0.6rem;
+  transition: color 0.25s ease;
+}
+
+/* Subrayado moderno */
+.navbar-sg a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #38bdf8; /* celeste lindo */
+  transition: width 0.3s ease;
+}
+
+.navbar-sg a:hover {
+  color: #38bdf8;
+}
+
+.navbar-sg a:hover::after {
+  width: 100%;
+}
+
+/* Contenedor botón hamburguesa */
+.navbar-hamburguesa-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Links a la derecha */
+.navbar-links-right {
+  margin-left: auto;
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .navbar-links-right {
+    display: none !important;
+  }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .navbar-sg {
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar-title-logo {
+    margin: 0 0 0 0.5rem; /* Ajustamos margen en móvil */
+  }
+
+  .navbar-logo-image {
+    height: 1.3rem; 
+  }
+
+  .navbar-title-text {
+    font-size: 1.3rem;
+    max-width: 70vw; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Estado activo */
+.navbar-sg a.active {
+  color: #38bdf8;
+}
+
+.navbar-sg a.active::after {
+  width: 100%;
+}
