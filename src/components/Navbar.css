@@ -151,3 +151,32 @@
 .navbar-sg a.active::after {
   width: 100%;
 }
+
+.logout-btn {
+  background: linear-gradient(135deg, #ff7eb9, #ff758c); /* degradado rosa / coral */
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 118, 140, 0.4);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #ff758c, #ff4d6d); /* degradado más intenso */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 77, 109, 0.5);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(255, 77, 109, 0.3);
+}
+
+.logout-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 118, 140, 0.5);
+}

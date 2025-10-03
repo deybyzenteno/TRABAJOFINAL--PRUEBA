@@ -101,8 +101,9 @@
 }
 
 .hero-subtitle {
+  color: #ffffff;
   font-size: 1.8rem;
-  text-shadow: 1px 1px 8px rgba(0,0,0,0.6);
+  text-shadow: 1px 1px 8px rgb(12, 201, 226);
   animation: slideUp 1s ease-out;
 }
 

@@ -1,4 +1,30 @@
 {
+  "Usuarios": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "1234",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "juan",
+      "password": "11",
+      "role": "user"
+    },
+    {
+      "id": "96d9",
+      "username": "gaston",
+      "password": "1234",
+      "role": "user"
+    },
+    {
+      "id": "1bd3",
+      "username": "deyby",
+      "password": "1",
+      "role": "user"
+    }
+  ],
   "clientes": [],
   "servicios": [],
   "panelTrabajos": [],
@@ -10,19 +36,19 @@
       "id": 1,
       "nombre": "Samsung Galaxy A54",
       "categoria": "celulares",
-  "descripcion": "Celular gama media, pantalla AMOLED 6.4 pulgadas, 128GB, 5G.",
+      "descripcion": "Celular gama media, pantalla AMOLED 6.4 pulgadas, 128GB, 5G.",
       "precio": 350000,
-  "stock": 5,
-  "imagen": "https://http2.mlstatic.com/D_NQ_NP_732057-MLA70868353813_082023-O.webp"
+      "stock": 5,
+      "imagen": "https://http2.mlstatic.com/D_NQ_NP_732057-MLA70868353813_082023-O.webp"
     },
     {
       "id": 2,
       "nombre": "Notebook Lenovo V15",
       "categoria": "computadoras",
-  "descripcion": "Notebook 15.6 pulgadas, Ryzen 5, 8GB RAM, 256GB SSD.",
+      "descripcion": "Notebook 15.6 pulgadas, Ryzen 5, 8GB RAM, 256GB SSD.",
       "precio": 650000,
-  "stock": 0,
-  "imagen": "https://mexx-img-2019.s3.amazonaws.com/Notebook-Lenovo-V15-G4-Ryzen-7-8Gb-Ssd-512Gb-15_48341_1.jpeg"
+      "stock": 0,
+      "imagen": "https://mexx-img-2019.s3.amazonaws.com/Notebook-Lenovo-V15-G4-Ryzen-7-8Gb-Ssd-512Gb-15_48341_1.jpeg"
     },
     {
       "id": 3,
@@ -30,44 +56,44 @@
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
       "precio": 45000,
-  "stock": 12,
-  "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
+      "stock": 12,
+      "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
     },
-     {
+    {
       "id": 4,
       "nombre": "noot",
       "categoria": "computadoras",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
       "precio": 45000,
-  "stock": 12,
-  "imagen": "https://yuhmak.vtexassets.com/arquivos/ids/192783-800-auto?v=638894997514700000&width=800&height=auto&aspect=true"
+      "stock": 12,
+      "imagen": "https://yuhmak.vtexassets.com/arquivos/ids/192783-800-auto?v=638894997514700000&width=800&height=auto&aspect=true"
     },
-     {
+    {
       "id": 5,
       "nombre": "Auriculares JBL Tune 510BT",
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
       "precio": 45000,
-  "stock": 12,
-  "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
+      "stock": 12,
+      "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
     },
-     {
+    {
       "id": 6,
       "nombre": "Iphone 17",
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
       "precio": 45000,
-  "stock": 12,
-  "imagen": "https://resizer.iproimg.com/unsafe/1280x/filters:format(webp):quality(85):max_bytes(102400)/https://assets.iprofesional.com/assets/jpg/2025/09/602828.jpg"
+      "stock": 12,
+      "imagen": "https://resizer.iproimg.com/unsafe/1280x/filters:format(webp):quality(85):max_bytes(102400)/https://assets.iprofesional.com/assets/jpg/2025/09/602828.jpg"
     },
-      {
-        "id": 7,
-        "nombre": "S24 Ultra",
-        "categoria": "celulares",
-        "descripcion": "Celular gama alta, pantalla AMOLED 6.8 pulgadas, 256GB, 5G.",
-        "precio": 1200000,
-        "stock": 8,
-        "imagen": "https://acdn-us.mitiendanube.com/stores/001/555/911/products/s24-ultra-black-10a6f31ec5abe2356717102614310530-1024-1024.webp"
-      }
+    {
+      "id": 7,
+      "nombre": "S24 Ultra",
+      "categoria": "celulares",
+      "descripcion": "Celular gama alta, pantalla AMOLED 6.8 pulgadas, 256GB, 5G.",
+      "precio": 1200000,
+      "stock": 8,
+      "imagen": "https://acdn-us.mitiendanube.com/stores/001/555/911/products/s24-ultra-black-10a6f31ec5abe2356717102614310530-1024-1024.webp"
+    }
   ]
 }

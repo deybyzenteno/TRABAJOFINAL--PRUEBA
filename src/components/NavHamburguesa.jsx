@@ -1,42 +1,116 @@
 import { useState } from 'react';
-import { FaBars, FaTimes, FaHome, FaServicestack, FaSignInAlt, FaInfoCircle, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { 
+  FaBars, FaTimes, FaHome, FaServicestack, FaSignInAlt, 
+  FaShoppingCart, FaUsers, FaChartBar, FaHistory 
+} from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
+import Swal from 'sweetalert2';
 import './NavHamburguesa.css';
-
-const menuItems = [
-  { nombre: 'Inicio', to: '/', icon: <FaHome /> },
-  { nombre: 'Productos', to: '/productos', icon: <FaShoppingCart /> },
-  { nombre: 'Servicios', to: '/servicios', icon: <FaServicestack /> },
-  { nombre: 'Login', to: '/login', icon: <FaSignInAlt /> },
-  // { nombre: 'Acerca de Nosotros', to: '/acerca', icon: <FaInfoCircle /> },
-];
 
 function NavHamburguesa() {
   const [open, setOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  let menuItems = [];
+
+  if (!user) {
+    menuItems = [
+      { nombre: 'Inicio', to: '/', icon: <FaHome /> },
+      { nombre: 'Productos', to: '/productos', icon: <FaShoppingCart /> },
+      { nombre: 'Ayuda', to: '/servicios', icon: <FaServicestack /> },
+      { nombre: 'Login', to: '/login', icon: <FaSignInAlt /> },
+    ];
+  } else if (user.role === 'user') {
+    menuItems = [
+      { nombre: 'Inicio', to: '/', icon: <FaHome /> },
+      { nombre: 'Productos', to: '/productos', icon: <FaShoppingCart /> },
+      { nombre: 'Carrito', to: '/carrito', icon: <FaShoppingCart /> },
+      { nombre: 'Ayuda', to: '/servicios', icon: <FaServicestack /> },
+    ];
+  } else if (user.role === 'admin') {
+    menuItems = [
+      { nombre: 'Clientes', to: '/admin/clientes', icon: <FaUsers /> },
+      { nombre: 'Productos', to: '/admin/productos', icon: <FaShoppingCart /> },
+      { nombre: 'Servicios', to: '/admin/servicios', icon: <FaServicestack /> },
+      { nombre: 'Estadísticas', to: '/admin/estadisticas', icon: <FaChartBar /> },
+      { nombre: 'Historial', to: '/admin/historial', icon: <FaHistory /> },
+    ];
+  }
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: '¿Seguro que quieres cerrar sesión?',
+      text: "Tendrás que iniciar sesión nuevamente.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        setOpen(false);
+        Swal.fire(
+          'Sesión cerrada',
+          'Has cerrado sesión correctamente.',
+          'success'
+        );
+      }
+    });
+  };
 
   return (
     <>
-      <button className={`nav-hamburguesa-btn${open ? ' active' : ''}`} onClick={() => setOpen(true)} aria-label="Abrir menú">
+      {/* Botón de menú hamburguesa */}
+      <button 
+        className={`nav-hamburguesa-btn${open ? ' active' : ''}`} 
+        onClick={() => setOpen(true)}
+      >
         <FaBars size={28} />
       </button>
+
+      {/* Menú lateral */}
       <div className={`nav-hamburguesa-menu${open ? ' open' : ''}`}>
         <div className="nav-hamburguesa-header">
           <span>Menú</span>
-          <button className="nav-hamburguesa-close" onClick={() => setOpen(false)} aria-label="Cerrar menú">
+          <button 
+            className="nav-hamburguesa-close" 
+            onClick={() => setOpen(false)}
+          >
             <FaTimes size={24} />
           </button>
         </div>
+
         <ul className="nav-hamburguesa-list">
           {menuItems.map(item => (
             <li key={item.to}>
-              <Link to={item.to} className="nav-hamburguesa-link" onClick={() => setOpen(false)}>
+              <Link 
+                to={item.to} 
+                className="nav-hamburguesa-link" 
+                onClick={() => setOpen(false)}
+              >
                 <span className="nav-hamburguesa-icon">{item.icon}</span>
                 {item.nombre}
               </Link>
             </li>
           ))}
+
+          {user && (
+            <li>
+              <button 
+                className="nav-hamburguesa-link" 
+                onClick={handleLogout}
+              >
+                <FaSignInAlt /> Logout
+              </button>
+            </li>
+          )}
         </ul>
-  </div>
+      </div>
+
+      {/* Fondo oscuro cuando está abierto */}
       {open && <div className="nav-hamburguesa-overlay" onClick={() => setOpen(false)}></div>}
     </>
   );
