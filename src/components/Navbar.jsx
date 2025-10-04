@@ -1,8 +1,11 @@
+// Navbar.jsx
+
 import { NavLink } from 'react-router-dom';
 import NavHamburguesa from './NavHamburguesa';
 import { useAuth } from '../context/AuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { FaTools } from 'react-icons/fa';
 import './Navbar.css';
 
 function Navbar() {
@@ -37,10 +40,14 @@ function Navbar() {
     });
   };
 
+  // Determina la clase del Navbar principal para manejar la alineación CSS
+  const navbarClass = user?.role === 'admin' ? 'navbar-sg navbar-admin-mode' : 'navbar-sg';
+
   return (
-    <nav className="navbar-sg">
-      {/* Logo + Título */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+    <nav className={navbarClass}>
+      
+      {/* 1. SECCIÓN IZQUIERDA: Logo + Hamburguesa */}
+      <div className="navbar-section-left">
         <div className="navbar-hamburguesa-container">
           <NavHamburguesa />
         </div>
@@ -50,7 +57,17 @@ function Navbar() {
         </h1>
       </div>
 
-      {/* Menú derecho dinámico */}
+      {/* 2. SECCIÓN CENTRAL: Enlace de Seguimiento Destacado (Centrado) */}
+      {/* ¡SOLO SE MUESTRA si NO es admin! */}
+      {(!user || user.role === 'user') && (
+        <div className="navbar-section-center-tracking">
+            <NavLink to="/seguimiento" className="tracking-oval-link">
+                Seguimiento de Servicio
+            </NavLink>
+        </div>
+      )}
+
+      {/* 3. SECCIÓN DERECHA: Menú dinámico */}
       <ul className="navbar-links-right">
         {/* Visitante */}
         {!user && (

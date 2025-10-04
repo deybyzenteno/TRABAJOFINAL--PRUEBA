@@ -1,13 +1,13 @@
 {
   "Usuarios": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "password": "1234",
       "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "juan",
       "password": "11",
       "role": "user"
@@ -23,17 +23,115 @@
       "username": "deyby",
       "password": "1",
       "role": "user"
+    },
+    {
+      "id": "bd1a",
+      "username": "bettina",
+      "password": "1",
+      "role": "user"
+    },
+    {
+      "id": "4669",
+      "username": "paolo",
+      "password": "1",
+      "role": "user"
     }
   ],
-  "clientes": [],
-  "servicios": [],
+  "clientes": [
+    {
+      "id": "1",
+      "nombreCompleto": "Juan Pérez",
+      "celular": "3512345678",
+      "correo": "juanperez@gmail.com",
+      "direccion": "Av. Siempreviva 7422",
+      "serviciosRealizados": [
+        "9314"
+      ]
+    },
+    {
+      "id": "b1ad",
+      "nombreCompleto": "Ituarte Gaston Abelardo",
+      "celular": "3816472708",
+      "correo": "sj@gmail",
+      "direccion": "lola mora 455",
+      "serviciosRealizados": [
+        "babf",
+        "2e15"
+      ]
+    }
+  ],
+  "servicios": [
+    {
+      "id": "babf",
+      "clienteId": "b1ad",
+      "marcaProducto": "samshunj",
+      "tipoServicio": "celulares",
+      "detalles": "sdsdsdsd",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "shshs",
+            "costo": 54539
+          }
+        ],
+        "subtotal": 54539,
+        "iva": 0,
+        "total": 54539
+      },
+      "estado": "enRevision",
+      "fechaEntrada": "2025-10-04",
+      "fechaSalida": "2025-10-04T19:51:10.026Z"
+    },
+    {
+      "id": "9314",
+      "clienteId": "1",
+      "marcaProducto": "5",
+      "tipoServicio": "celulares",
+      "detalles": "jjbj",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "sd",
+            "costo": 54540
+          }
+        ],
+        "subtotal": 54540,
+        "iva": 0,
+        "total": 54540
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-04",
+      "fechaSalida": null
+    },
+    {
+      "id": "2e15",
+      "clienteId": "b1ad",
+      "marcaProducto": "jhjh",
+      "tipoServicio": "celulares",
+      "detalles": "jhj",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-04",
+      "fechaSalida": null
+    }
+  ],
   "panelTrabajos": [],
   "estadisticas": [],
   "historialServicio": [],
   "historialEquiposNoretirados": [],
   "productos": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "Samsung Galaxy A54",
       "categoria": "celulares",
       "descripcion": "Celular gama media, pantalla AMOLED 6.4 pulgadas, 128GB, 5G.",
@@ -42,7 +140,7 @@
       "imagen": "https://http2.mlstatic.com/D_NQ_NP_732057-MLA70868353813_082023-O.webp"
     },
     {
-      "id": 2,
+      "id": "2",
       "nombre": "Notebook Lenovo V15",
       "categoria": "computadoras",
       "descripcion": "Notebook 15.6 pulgadas, Ryzen 5, 8GB RAM, 256GB SSD.",
@@ -51,7 +149,7 @@
       "imagen": "https://mexx-img-2019.s3.amazonaws.com/Notebook-Lenovo-V15-G4-Ryzen-7-8Gb-Ssd-512Gb-15_48341_1.jpeg"
     },
     {
-      "id": 3,
+      "id": "3",
       "nombre": "Auriculares JBL Tune 510BT",
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
@@ -60,7 +158,7 @@
       "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
     },
     {
-      "id": 4,
+      "id": "4",
       "nombre": "noot",
       "categoria": "computadoras",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
@@ -69,7 +167,7 @@
       "imagen": "https://yuhmak.vtexassets.com/arquivos/ids/192783-800-auto?v=638894997514700000&width=800&height=auto&aspect=true"
     },
     {
-      "id": 5,
+      "id": "5",
       "nombre": "Auriculares JBL Tune 510BT",
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
@@ -78,7 +176,7 @@
       "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
     },
     {
-      "id": 6,
+      "id": "6",
       "nombre": "Iphone 17",
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
@@ -87,7 +185,7 @@
       "imagen": "https://resizer.iproimg.com/unsafe/1280x/filters:format(webp):quality(85):max_bytes(102400)/https://assets.iprofesional.com/assets/jpg/2025/09/602828.jpg"
     },
     {
-      "id": 7,
+      "id": "7",
       "nombre": "S24 Ultra",
       "categoria": "celulares",
       "descripcion": "Celular gama alta, pantalla AMOLED 6.8 pulgadas, 256GB, 5G.",
