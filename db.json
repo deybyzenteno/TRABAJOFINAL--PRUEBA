@@ -45,7 +45,9 @@
       "correo": "juanperez@gmail.com",
       "direccion": "Av. Siempreviva 7422",
       "serviciosRealizados": [
-        "9314"
+        "9314",
+        "2733",
+        "e557"
       ]
     },
     {
@@ -55,33 +57,22 @@
       "correo": "sj@gmail",
       "direccion": "lola mora 455",
       "serviciosRealizados": [
-        "babf",
-        "2e15"
+        "2e15",
+        "56e7"
+      ]
+    },
+    {
+      "id": "002a",
+      "nombreCompleto": "Bobba Julian",
+      "celular": "646464",
+      "correo": "bhjvhj@hjhj",
+      "direccion": "hjhjh",
+      "serviciosRealizados": [
+        "5ac8"
       ]
     }
   ],
   "servicios": [
-    {
-      "id": "babf",
-      "clienteId": "b1ad",
-      "marcaProducto": "samshunj",
-      "tipoServicio": "celulares",
-      "detalles": "sdsdsdsd",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "shshs",
-            "costo": 54539
-          }
-        ],
-        "subtotal": 54539,
-        "iva": 0,
-        "total": 54539
-      },
-      "estado": "enRevision",
-      "fechaEntrada": "2025-10-04",
-      "fechaSalida": "2025-10-04T19:51:10.026Z"
-    },
     {
       "id": "9314",
       "clienteId": "1",
@@ -122,6 +113,90 @@
       },
       "estado": "pendiente",
       "fechaEntrada": "2025-10-04",
+      "fechaSalida": null
+    },
+    {
+      "id": "56e7",
+      "clienteId": "b1ad",
+      "marcaProducto": "5",
+      "tipoServicio": "celulares",
+      "detalles": "kjkj",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "enRevision",
+      "fechaEntrada": "2025-10-05",
+      "fechaSalida": null
+    },
+    {
+      "id": "2733",
+      "clienteId": "1",
+      "marcaProducto": "infinix",
+      "tipoServicio": "computadora",
+      "detalles": "dsdad",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-05",
+      "fechaSalida": null
+    },
+    {
+      "id": "e557",
+      "clienteId": "1",
+      "marcaProducto": "dsds",
+      "tipoServicio": "celulares",
+      "detalles": "dsdsd",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-05",
+      "fechaSalida": null
+    },
+    {
+      "id": "5ac8",
+      "clienteId": "002a",
+      "marcaProducto": "samjun",
+      "tipoServicio": "parlantes",
+      "detalles": "fhhfhfh",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-05",
       "fechaSalida": null
     }
   ],

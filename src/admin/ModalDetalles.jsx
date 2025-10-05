@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const ESTADO_OPTIONS = [
     { value: "pendiente", label: "Pendiente" },
     { value: "enRevision", label: "En Revisión" },
-    { value: "revisionTerminada", label: "Revisión Terminada" },
+    { value: "revisionTerminada", label: "En Reparacion" },
     { value: "terminado", label: "Listo para Entrega" },
     { value: "entregado", label: "Entregado" },
 ];

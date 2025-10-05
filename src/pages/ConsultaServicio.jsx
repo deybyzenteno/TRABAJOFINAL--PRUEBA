@@ -20,7 +20,7 @@ const ESTADO_DISPLAY = {
     diagnostico: "Diagnóstico Finalizado / Presupuesto Generado",
     presupuestoPendiente: "Presupuesto Generado (Esperando Aprobación del Cliente)",
     reparacion: "En Proceso de Reparación Activa",
-    revisionTerminada: "Revisión/Reparación Terminada (Control de Calidad)",
+    revisionTerminada: "En Reparación  ",
     terminado: "Listo para Retirar",
     entregado: "Servicio Entregado y Cerrado",
 };
