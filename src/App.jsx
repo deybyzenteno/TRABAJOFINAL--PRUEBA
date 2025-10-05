@@ -19,6 +19,7 @@ import HistorialAdmin from "./admin/HistorialAdmin";
 
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import Paneltrabajos from "./admin/Paneltrabajos";
 
 function App() {
   return (
@@ -47,6 +48,14 @@ function App() {
           />
 
           {/* Rutas privadas para ADMIN */}
+            <Route
+            path="/admin/paneltrabajos"
+            element={
+              <PrivateRoute role="admin">
+                <Paneltrabajos />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/admin/clientes"
             element={

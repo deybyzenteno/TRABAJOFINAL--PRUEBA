@@ -53,7 +53,7 @@ function Navbar() {
         </div>
         <h1 className="navbar-title-logo">
           <img src="/img/logo2.png" alt="Logo SG" className="navbar-logo-image" />
-          <span className="navbar-title-text">Servicio Técnico</span>
+          <span className="navbar-title-text" style={{ color: user?.role === "admin" ? "#FFD700" : "#ffffff" }}>{user?.role === "admin" ? "Panel Admin" : "Servicio Técnico"}</span>
         </h1>
       </div>
 
@@ -95,8 +95,9 @@ function Navbar() {
         {/* Admin */}
         {user?.role === 'admin' && (
           <>
+            <li><NavLink to="/admin/paneltrabajos"><FaTools style={{ marginRight: '8px' }} />Panel de Trabajo</NavLink></li>
             <li><NavLink to="/admin/clientes">Clientes</NavLink></li>
-            <li><NavLink to="/admin/productosAdmin">Productos CRUD</NavLink></li>
+            <li><NavLink to="/admin/productosAdmin">Productos</NavLink></li>
             <li><NavLink to="/admin/servicios">Servicios</NavLink></li>
             <li><NavLink to="/admin/estadisticas">Estadísticas</NavLink></li>
             <li><NavLink to="/admin/historial">Historial</NavLink></li>

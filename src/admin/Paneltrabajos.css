@@ -1,0 +1,351 @@
+/* ============================== */
+/* PANEL DE TRABAJO - NUEVO ESTILO */
+/* ============================== */
+
+:root {
+  --color-primario: #2563eb;
+  --color-secundario: #1e293b;
+  --color-acento: #38bdf8;
+  --color-exito: #16a34a;
+  --color-peligro: #dc2626;
+  --color-advertencia: #f59e0b;
+  --color-fondo: #f9fafb;
+  --radius: 10px;
+}
+
+/* --- Contenedor Principal --- */
+.panel-trabajo-container {
+  width: 100vw;
+  min-height: 100vh;
+  background: var(--color-fondo);
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--color-secundario);
+}
+
+.panel-trabajo-container h1 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  color: var(--color-primario);
+}
+
+.panel-subtitulo {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Buscador --- */
+.panel-buscador {
+  max-width: 600px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.panel-buscador input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.panel-buscador input:focus {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* --- Lista de servicios --- */
+.servicios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* --- Tarjetas --- */
+.tarjeta-servicio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-left: 5px solid var(--color-primario);
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.tarjeta-servicio:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.prioridad-entrega {
+  border-left-color: var(--color-advertencia);
+  background: #fff8e1;
+}
+
+.info-resumen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.id-servicio {
+  font-weight: bold;
+  color: var(--color-secundario);
+}
+
+/* --- Estado badge --- */
+.estado-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  margin-left: 6px;
+}
+
+.estado-pendiente {
+  background-color: var(--color-peligro);
+}
+.estado-enRevision {
+  background-color: var(--color-advertencia);
+}
+.estado-revisionTerminada,
+.estado-terminado {
+  background-color: #ea580c;
+}
+.estado-entregado {
+  background-color: var(--color-exito);
+}
+
+/* --- Botones de acción --- */
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-detalles,
+.btn-entregar {
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-detalles {
+  background: #e2e8f0;
+  color: var(--color-secundario);
+}
+.btn-detalles:hover {
+  background: #cbd5e1;
+}
+
+.btn-entregar {
+  background: var(--color-exito);
+  color: white;
+}
+.btn-entregar:hover {
+  background: #15803d;
+}
+
+/* --- Mensaje vacío --- */
+.mensaje-vacio {
+  text-align: center;
+  color: #475569;
+  background: white;
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Loading --- */
+.panel-loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: var(--color-secundario);
+}
+
+/* ===================== */
+/* MODAL (Modernizado)  */
+/* ===================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--color-primario);
+}
+
+.modal-form label {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+  border-color: var(--color-primario);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+fieldset {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+}
+legend {
+  padding: 0 8px;
+  font-size: 0.9rem;
+  color: var(--color-secundario);
+  font-weight: 600;
+}
+
+/* Presupuesto */
+.presupuesto-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.presupuesto-item input {
+  flex: 1;
+}
+
+.presupuesto-item button {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 0 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.presupuesto-item button:hover {
+  background: #dc2626;
+}
+
+.presupuesto-section button[type="button"] {
+  margin-top: 0.5rem;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.presupuesto-section button[type="button"]:hover {
+  background: #1d4ed8;
+}
+
+.presupuesto-resumen {
+  font-size: 0.9rem;
+  margin-top: 0.8rem;
+  color: #374151;
+}
+
+/* Botones del modal */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.btn-guardar {
+  background-color: var(--color-primario);
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-guardar:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-cancelar {
+  background-color: #6b7280;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.btn-cancelar:hover {
+  background-color: #4b5563;
+}
+
+/* ===================== */
+/* RESPONSIVE DESIGN     */
+/* ===================== */
+@media (max-width: 768px) {
+  .tarjeta-servicio {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .acciones {
+    align-self: flex-end;
+  }
+
+  .panel-trabajo-container h1 {
+    font-size: 1.5rem;
+  }
+}

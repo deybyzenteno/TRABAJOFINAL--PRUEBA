@@ -14,7 +14,7 @@ const TIPO_SERVICIO_OPTIONS = [
 const ESTADO_OPTIONS = [
     { value: "pendiente", label: "Pendiente" },
     { value: "enRevision", label: "En Revisión" },
-    { value: "revisionTerminada", label: "Revisión Terminada" },
+    { value: "revisionTerminada", label: "En Reparacion" },
     { value: "terminado", label: "Terminado" },
     { value: "entregado", label: "Entregado" }, // Estado para formalizar la entrega
 ];

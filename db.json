@@ -99,7 +99,7 @@
         "iva": 0,
         "total": 54540
       },
-      "estado": "pendiente",
+      "estado": "enRevision",
       "fechaEntrada": "2025-10-04",
       "fechaSalida": null
     },
@@ -112,13 +112,13 @@
       "presupuesto": {
         "items": [
           {
-            "descripcion": "",
-            "costo": 0
+            "descripcion": "pantalla",
+            "costo": 151510
           }
         ],
-        "subtotal": 0,
+        "subtotal": 151510,
         "iva": 0,
-        "total": 0
+        "total": 151510
       },
       "estado": "pendiente",
       "fechaEntrada": "2025-10-04",

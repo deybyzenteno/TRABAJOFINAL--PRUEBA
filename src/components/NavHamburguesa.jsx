@@ -30,6 +30,7 @@ function NavHamburguesa() {
         ];
     } else if (user.role === 'admin') {
         menuItems = [
+            { nombre: 'Panel de Trabajo', to: '/admin/paneltrabajos', icon: <FaTools /> },
             { nombre: 'Clientes', to: '/admin/clientes', icon: <FaUsers /> },
             { nombre: 'Productos', to: '/admin/productosAdmin', icon: <FaShoppingCart /> }, // Corregido: productosAdmin
             { nombre: 'Servicios', to: '/admin/servicios', icon: <FaServicestack /> },

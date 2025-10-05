@@ -28,6 +28,7 @@
 
 /* Imagen del logo */
 .navbar-logo-image {
+     /* Ajusta según el espacio necesario */
     height: 2.6rem; /* Tamaño ajustable */
     width: auto;
     margin-right: 8px; /* Espacio entre logo y texto */
@@ -204,6 +205,7 @@
     }
 
     .navbar-logo-image {
+        margin-left: -20rem;
         height: 1.3rem; 
     }
 
