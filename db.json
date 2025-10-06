@@ -82,23 +82,27 @@
     {
       "id": "9314",
       "clienteId": "1",
-      "marcaProducto": "5",
+      "marcaProducto": "xiaomi",
       "tipoServicio": "celulares",
       "detalles": "jjbj",
       "presupuesto": {
         "items": [
           {
             "descripcion": "pantalla",
-            "costo": 9999
+            "costo": 10000
           },
           {
             "descripcion": "ads",
-            "costo": 44997
+            "costo": 5000
+          },
+          {
+            "descripcion": "bateria ",
+            "costo": 4400
           }
         ],
-        "subtotal": 54996,
+        "subtotal": 19400,
         "iva": 0,
-        "total": 54996
+        "total": 19400
       },
       "estado": "pendiente",
       "fechaEntrada": "2025-10-04",
@@ -163,7 +167,7 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "terminado",
+      "estado": "pendiente",
       "fechaEntrada": "2025-10-05",
       "fechaSalida": null
     },

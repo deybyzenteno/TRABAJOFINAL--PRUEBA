@@ -19,12 +19,7 @@ const ESTADO_OPTIONS = [
     { value: "entregado", label: "Entregado" }, // Estado para formalizar la entrega
 ];
 
-// ********************************************************************
-// ********** AJUSTE REALIZADO: URL BASE PARA PRUEBAS LOCALES *********
-// ********************************************************************
-// ESTA URL funciona para escanear el QR en tu máquina local.
 const URL_BASE_PUBLICA = "http://192.168.1.14:5173"; 
-// ********************************************************************
 
 function ServiciosAdmin() {
     const initialState = {
@@ -34,7 +29,6 @@ function ServiciosAdmin() {
         detalles: "",
         presupuesto: { items: [{ descripcion: "", costo: 0 }], subtotal: 0, iva: 0, total: 0 },
         estado: ESTADO_OPTIONS[0].value,
-        // Inicializa la fecha de entrada en formato YYYY-MM-DD para el input[type=date]
         fechaEntrada: new Date().toISOString().split('T')[0], 
         fechaSalida: null,
     };
@@ -44,15 +38,19 @@ function ServiciosAdmin() {
     const [servicios, setServicios] = useState([]);
     const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
     const [showListaServicios, setShowListaServicios] = useState(false);
-    const [editIndex, setEditIndex] = useState(null);
+    
+    // CAMBIO CLAVE: Usamos el ID del servicio que se está editando
+    const [editId, setEditId] = useState(null); 
+    
     const [editData, setEditData] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     
-    /* ESTADO: Controla el índice de la tarjeta con el presupuesto abierto */
-    const [showBudgetIndex, setShowBudgetIndex] = useState(null); 
+    // CAMBIO CLAVE: Usamos el ID del servicio cuyo presupuesto está abierto
+    const [showBudgetId, setShowBudgetId] = useState(null); 
 
     // Carga inicial de clientes y servicios
     useEffect(() => {
+        // ... (Tu código de carga de clientes y servicios permanece igual)
         fetch("http://localhost:3001/clientes")
             .then((res) => res.json())
             .then((data) => {
@@ -76,10 +74,12 @@ function ServiciosAdmin() {
         return { subtotal, iva: 0, total: subtotal };
     };
 
-    // FUNCIÓN: Alternar el presupuesto
-    const toggleBudget = (index) => {
-        setShowBudgetIndex(showBudgetIndex === index ? null : index);
+    // FUNCIÓN: Alternar el presupuesto (Ahora usa el ID)
+    const toggleBudget = (id) => {
+        setShowBudgetId(showBudgetId === id ? null : id);
     };
+    
+    // ... (handlePresupuestoChange, addPresupuestoItem, removePresupuestoItem, handleGeneralChange, handleClienteSelect, handleSubmit permanecen iguales ya que no dependen del índice) ...
 
     // ----------------------------------------
     // Form nuevo servicio (Lógica de Presupuesto)
@@ -115,7 +115,6 @@ function ServiciosAdmin() {
         setFormData((prev) => ({ ...prev, clienteId: selectedOption.value }));
     };
 
-    // FUNCIÓN CORREGIDA: Agrega el ID del servicio al cliente asociado
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.clienteId) {
@@ -142,12 +141,12 @@ function ServiciosAdmin() {
 
             // 3. ACTUALIZAR EL ARRAY serviciosRealizados del Cliente en la DB
             const nuevosServiciosRealizados = [
-                ...(clienteActual.serviciosRealizados || []), // Usamos '|| []' por seguridad
+                ...(clienteActual.serviciosRealizados || []),
                 nuevoServicio.id
             ];
             
             const resUpdateCliente = await fetch(`http://localhost:3001/clientes/${clienteId}`, {
-                method: "PATCH", // PATCH para actualizar solo el campo serviciosRealizados
+                method: "PATCH", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ serviciosRealizados: nuevosServiciosRealizados }),
             });
@@ -169,16 +168,20 @@ function ServiciosAdmin() {
     // ----------------------------------------
     // Edición y eliminación
     // ----------------------------------------
-    const handleEditClick = (index) => {
-        setEditIndex(index);
-        // Clonar el objeto para que las ediciones no afecten el estado original
-        setEditData(JSON.parse(JSON.stringify(servicios[index]))); 
-        // Ocultar presupuesto si estaba visible al entrar en edición
-        setShowBudgetIndex(null);
+    // FUNCIÓN CORREGIDA: Ahora recibe el ID del servicio
+    const handleEditClick = (serviceId) => {
+        const serviceToEdit = servicios.find(s => s.id === serviceId);
+        if (serviceToEdit) {
+            setEditId(serviceId); // Establece el ID que se está editando
+            // Clonar el objeto para que las ediciones no afecten el estado original
+            setEditData(JSON.parse(JSON.stringify(serviceToEdit))); 
+            // Ocultar presupuesto si estaba visible al entrar en edición
+            setShowBudgetId(null);
+        }
     };
 
     const handleCancelEdit = () => {
-        setEditIndex(null);
+        setEditId(null);
         setEditData(null);
     };
 
@@ -211,11 +214,9 @@ function ServiciosAdmin() {
     };
 
     const handleSaveEdit = async () => {
-        // LÓGICA DE FECHA DE SALIDA/ENTREGA AUTOMÁTICA
-        const dataToSave = JSON.parse(JSON.stringify(editData)); // Usamos una copia para la lógica
+        const dataToSave = JSON.parse(JSON.stringify(editData));
         
         if (dataToSave.estado === 'entregado' && !dataToSave.fechaSalida) {
-            // Si el estado es "Entregado" y NO hay fecha de salida, la establecemos ahora.
             dataToSave.fechaSalida = new Date().toISOString(); 
         } 
         
@@ -227,10 +228,13 @@ function ServiciosAdmin() {
             });
             if (!res.ok) throw new Error("Error al guardar cambios");
             const updated = await res.json();
-            const newServicios = [...servicios];
-            newServicios[editIndex] = updated;
-            setServicios(newServicios);
-            setEditIndex(null);
+            
+            // Reemplaza el servicio en el array original 'servicios' por su ID
+            setServicios(prevServicios => prevServicios.map(s => 
+                s.id === updated.id ? updated : s
+            ));
+            
+            setEditId(null); // Limpiamos el ID de edición
             setEditData(null);
             Swal.fire("Actualizado", `Servicio ${updated.id} guardado.`, "success");
         } catch (err) {
@@ -238,7 +242,6 @@ function ServiciosAdmin() {
         }
     };
 
-    // FUNCIÓN CORREGIDA: Elimina el servicio y su ID del registro del cliente
     const handleDeleteServicio = async (id) => {
         const confirm = await Swal.fire({
             title: "¿Eliminar servicio?",
@@ -257,16 +260,13 @@ function ServiciosAdmin() {
             if (servicioAEliminar) {
                 const clienteId = servicioAEliminar.clienteId;
                 
-                // 1. Obtener datos del cliente
                 const resCliente = await fetch(`http://localhost:3001/clientes/${clienteId}`);
                 const clienteActual = await resCliente.json();
                 
-                // 2. Filtrar el ID del servicio a eliminar
                 const nuevosServiciosRealizados = (clienteActual.serviciosRealizados || []).filter(
                     servicioId => servicioId !== id
                 );
                 
-                // 3. Actualizar el cliente en la DB (Desvincular)
                 await fetch(`http://localhost:3001/clientes/${clienteId}`, {
                     method: "PATCH", 
                     headers: { "Content-Type": "application/json" },
@@ -288,8 +288,10 @@ function ServiciosAdmin() {
     };
 
     // ----------------------------------------
-    // Filtrado por búsqueda
+    // Filtrado y Ordenamiento
     // ----------------------------------------
+    
+    // 1. FILTRADO
     const serviciosFiltrados = servicios.filter((s) => {
         const query = searchQuery.toLowerCase();
         const cliente = clientes.find(c => c.value === s.clienteId)?.label || "";
@@ -301,12 +303,16 @@ function ServiciosAdmin() {
         );
     });
 
+    // 2. ORDENAMIENTO (Descendente por ID para que el más nuevo esté primero)
+    // Usamos el operador spread `...` para clonar el array antes de ordenarlo
+    const serviciosOrdenados = [...serviciosFiltrados].sort((a, b) => b.id - a.id);
+
     return (
         <div className="servicios-full">
             <div className="servicios-container">
                 <h2>Creación de Nuevo Servicio 🛠️</h2>
 
-                {/* FORMULARIO NUEVO SERVICIO */}
+                {/* FORMULARIO NUEVO SERVICIO (sin cambios) */}
                 <form className="servicio-form" onSubmit={handleSubmit}>
                     <fieldset className="seccion-form">
                         <legend>Datos del Cliente y Producto</legend>
@@ -329,7 +335,6 @@ function ServiciosAdmin() {
                         <label>Detalles:</label>
                         <textarea name="detalles" value={formData.detalles} onChange={handleGeneralChange} rows="3" />
                         
-                        {/* CAMPO DE FECHA DE ENTRADA EN CREACIÓN */}
                         <label>Fecha de Entrada:</label>
                         <input 
                             type="date" 
@@ -359,12 +364,12 @@ function ServiciosAdmin() {
                     <button type="submit" className="btn-primary-servicio">Registrar Nuevo Servicio 🚀</button>
                 </form>
 
-                {/* BOTÓN MOSTRAR/OCULTAR SERVICIOS */}
+                {/* BOTÓN MOSTRAR/OCULTAR SERVICIOS (sin cambios) */}
                 <button className="btn-toggle-lista-servicios" onClick={() => setShowListaServicios(!showListaServicios)}>
                     {showListaServicios ? "Ocultar Servicios" : "Mostrar Servicios"}
                 </button>
 
-                {/* BUSCADOR */}
+                {/* BUSCADOR (sin cambios) */}
                 {showListaServicios && (
                     <div className="buscador-servicios">
                         <input
@@ -380,27 +385,32 @@ function ServiciosAdmin() {
                 {showListaServicios && (
                     <div className="servicios-lista-wrapper">
                         <div className="servicios-lista-cards">
-                            {serviciosFiltrados.map((s, i) => {
+                            {/* CAMBIO CLAVE: Iteramos sobre serviciosOrdenados */}
+                            {serviciosOrdenados.map((s) => {
                                 const clienteNombre = clientes.find(c => c.value === s.clienteId)?.label || "Cliente desconocido";
-                                const isBudgetOpen = showBudgetIndex === i; 
                                 
-                                // Generación de URL directa para QR (usando la URL local)
+                                // CAMBIO CLAVE: Comparamos s.id con editId
+                                const isEditing = editId === s.id; 
+                                
+                                // CAMBIO CLAVE: Comparamos s.id con showBudgetId
+                                const isBudgetOpen = showBudgetId === s.id; 
+                                
                                 const qrUrl = `${URL_BASE_PUBLICA}/seguimiento/${s.id}`;
-                                console.log(`URL del Servicio ${s.id}: ${qrUrl}`);
+                                // console.log(`URL del Servicio ${s.id}: ${qrUrl}`); // Lo comentamos para limpiar la consola
 
                                 return (
                                     <div 
                                         key={s.id} 
-                                        className={`servicio-card ${editIndex === i ? 'editando' : ''}`} 
+                                        className={`servicio-card ${isEditing ? 'editando' : ''}`} 
                                     >
                                         <div className="qr-info-header">
                                             <h4>ID: {s.id}</h4>
-                                            {/* QR ahora apunta a la URL directa */}
                                             <QRCodeSVG value={qrUrl} size={80} /> 
                                         </div>
-                                        {editIndex === i ? (
+                                        {/* CAMBIO CLAVE: Ahora preguntamos si el ID es igual al ID de edición */}
+                                        {isEditing ? (
                                             <>
-                                                {/* MODO EDICIÓN */}
+                                                {/* MODO EDICIÓN (sigue usando editData, que es correcto) */}
                                                 <label>Cliente:</label>
                                                 <select name="clienteId" value={editData.clienteId} onChange={handleEditChange}>
                                                     {clientes.map(c => (
@@ -424,7 +434,6 @@ function ServiciosAdmin() {
                                                     ))}
                                                 </select>
                                                 
-                                                {/* CAMPO DE EDICIÓN: Fecha de Entrada */}
                                                 <label>Fecha de Entrada:</label>
                                                 <input 
                                                     type="date" 
@@ -434,12 +443,11 @@ function ServiciosAdmin() {
                                                     required
                                                 />
 
-                                                {/* CAMPO DE EDICIÓN: Fecha de Salida */}
                                                 <label>Fecha de Salida (Entregado):</label>
                                                 <input 
                                                     type="date" 
                                                     name="fechaSalida" 
-                                                    value={editData.fechaSalida ? editData.fechaSalida.split('T')[0] : ''} 
+                                                    value={editData.fechaSalida ? new Date(editData.fechaSalida).toISOString().split('T')[0] : ''} 
                                                     onChange={handleEditChange} 
                                                 />
                                                 
@@ -472,8 +480,8 @@ function ServiciosAdmin() {
                                                 <p><strong>Tipo:</strong> {TIPO_SERVICIO_OPTIONS.find(o => o.value === s.tipoServicio)?.label || s.tipoServicio}</p>
                                                 <p><strong>Estado:</strong> {ESTADO_OPTIONS.find(o => o.value === s.estado)?.label || s.estado}</p>
                                                 
-                                                {/* FECHAS EN MODO VISUALIZACIÓN */}
-                                                <p><strong>Entrada:</strong> {new Date(s.fechaEntrada).toLocaleDateString()}</p>
+                                                {/* Las fechas deben ser convertidas de nuevo para mostrarse correctamente, usando el formato ISO. */}
+                                                <p><strong>Entrada:</strong> {s.fechaEntrada ? new Date(s.fechaEntrada).toLocaleDateString() : 'N/A'}</p>
                                                 {s.fechaSalida && (
                                                     <p><strong>Entrega:</strong> {new Date(s.fechaSalida).toLocaleDateString()}</p>
                                                 )}
@@ -481,15 +489,18 @@ function ServiciosAdmin() {
                                                 {/* Botón de Presupuesto Desplegable */}
                                                 <button 
                                                     className="btn-toggle-presupuesto"
-                                                    onClick={() => toggleBudget(i)}
+                                                    // CAMBIO CLAVE: Le pasamos el ID del servicio
+                                                    onClick={() => toggleBudget(s.id)} 
                                                 >
                                                     <span className="resumen-total">
                                                         Total Presupuesto: <strong>${s.presupuesto.total.toFixed(2)}</strong>
                                                     </span>
+                                                    {/* CAMBIO CLAVE: Comparamos s.id con showBudgetId */}
                                                     <span className="toggle-icon">{isBudgetOpen ? '▲' : '▼'}</span>
                                                 </button>
 
                                                 {/* Contenido del Presupuesto (Renderizado Condicional) */}
+                                                {/* CAMBIO CLAVE: Usamos isBudgetOpen */}
                                                 {isBudgetOpen && (
                                                     <fieldset className="presupuesto-oculto-detalle">
                                                         <legend>Detalle Ítems</legend>
@@ -500,7 +511,8 @@ function ServiciosAdmin() {
                                                 )}
                                                 
                                                 <div className="acciones-servicio">
-                                                    <button onClick={() => handleEditClick(i)} className="btn-edit-servicio">Editar</button>
+                                                    {/* CAMBIO CLAVE: Le pasamos el ID del servicio */}
+                                                    <button onClick={() => handleEditClick(s.id)} className="btn-edit-servicio">Editar</button>
                                                     <button onClick={() => handleDeleteServicio(s.id)} className="btn-delete-servicio">Eliminar</button>
                                                 </div>
                                             </>
