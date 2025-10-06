@@ -35,6 +35,12 @@
       "username": "paolo",
       "password": "1",
       "role": "user"
+    },
+    {
+      "id": "0cd6",
+      "username": "gabi",
+      "password": "1",
+      "role": "user"
     }
   ],
   "clientes": [
@@ -82,15 +88,19 @@
       "presupuesto": {
         "items": [
           {
-            "descripcion": "sd",
-            "costo": 54540
+            "descripcion": "pantalla",
+            "costo": 9999
+          },
+          {
+            "descripcion": "ads",
+            "costo": 44997
           }
         ],
-        "subtotal": 54540,
+        "subtotal": 54996,
         "iva": 0,
-        "total": 54540
+        "total": 54996
       },
-      "estado": "enRevision",
+      "estado": "pendiente",
       "fechaEntrada": "2025-10-04",
       "fechaSalida": null
     },
@@ -111,9 +121,9 @@
         "iva": 0,
         "total": 151510
       },
-      "estado": "pendiente",
+      "estado": "enRevision",
       "fechaEntrada": "2025-10-04",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-07T00:00:00.000Z"
     },
     {
       "id": "56e7",
@@ -134,7 +144,7 @@
       },
       "estado": "enRevision",
       "fechaEntrada": "2025-10-05",
-      "fechaSalida": null
+      "fechaSalida": "2025-09-29T00:00:00.000Z"
     },
     {
       "id": "2733",
@@ -153,7 +163,7 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "pendiente",
+      "estado": "terminado",
       "fechaEntrada": "2025-10-05",
       "fechaSalida": null
     },
@@ -195,9 +205,9 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "pendiente",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-05",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-06T18:50:58.200Z"
     }
   ],
   "panelTrabajos": [],
