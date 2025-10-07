@@ -128,8 +128,9 @@
     text-align: right;
 }
 
-.servicios-full .presupuesto-item button {
-    background-color: #ef4444;
+/* FIX CSS: Selector específico para asegurar el color rojo del botón de remover */
+.servicios-full .presupuesto-item .btn-remove-item { 
+    background-color: #ef4444; /* Rojo */
     color: white;
     border: none;
     border-radius: 50%;
@@ -142,7 +143,7 @@
     transition: background-color 0.2s;
 }
 
-.servicios-full .presupuesto-item button:hover {
+.servicios-full .presupuesto-item .btn-remove-item:hover {
     background-color: #dc2626;
 }
 
@@ -355,6 +356,32 @@
     text-align: right;
 }
 
+/* FIX CSS: Estilo del botón de remover en modo edición. 
+   Usa la misma clase para la consistencia del color rojo. */
+/* FIX CSS: Selector específico para asegurar el color rojo y centrado perfecto */
+.servicios-full .presupuesto-item .btn-remove-item { 
+    background-color: #ef4444; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-size: 1.1em;
+    line-height: 1; 
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+    margin-bottom: 0.6rem;
+    /* CAMBIO CLAVE PARA CENTRADO */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.servicios-full .presupuesto-item .btn-remove-item:hover {
+    background-color: #c73131;
+}
+
 .servicios-full .servicio-card.editando .presupuesto-section legend {
     font-size: 0.95rem;
     font-weight: 700;
@@ -495,6 +522,3 @@
     font-weight: 700;
     color: #312e81;
 }
-
-/* Nota: Los estilos de las tarjetas y el modo edición de la respuesta anterior
-   permanecen vigentes y no han sido alterados en esta sección. */

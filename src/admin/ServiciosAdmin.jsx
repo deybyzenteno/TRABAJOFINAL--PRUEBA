@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import Select from "react-select";
 import { QRCodeSVG } from "qrcode.react";
-import "./servicios.css";
+import "./serviciosAdmin.css";
 
 const TIPO_SERVICIO_OPTIONS = [
     { value: "celulares", label: "Celulares" },
@@ -16,7 +16,7 @@ const ESTADO_OPTIONS = [
     { value: "enRevision", label: "En Revisión" },
     { value: "revisionTerminada", label: "En Reparacion" },
     { value: "terminado", label: "Terminado" },
-    { value: "entregado", label: "Entregado" }, // Estado para formalizar la entrega
+    { value: "entregado", label: "Entregado" },
 ];
 
 const URL_BASE_PUBLICA = "http://192.168.1.14:5173"; 
@@ -27,9 +27,10 @@ function ServiciosAdmin() {
         marcaProducto: "",
         tipoServicio: TIPO_SERVICIO_OPTIONS[0].value,
         detalles: "",
-        presupuesto: { items: [{ descripcion: "", costo: 0 }], subtotal: 0, iva: 0, total: 0 },
+        presupuesto: { items: [{ descripcion: "", costo: "" }], subtotal: 0, iva: 0, total: 0 },
         estado: ESTADO_OPTIONS[0].value,
-        fechaEntrada: new Date().toISOString().split('T')[0], 
+        // ** (1) GUARDA HORA:** Siempre guarda el ISO String completo al inicio
+        fechaEntrada: new Date().toISOString(), 
         fechaSalida: null,
     };
 
@@ -38,19 +39,13 @@ function ServiciosAdmin() {
     const [servicios, setServicios] = useState([]);
     const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
     const [showListaServicios, setShowListaServicios] = useState(false);
-    
-    // CAMBIO CLAVE: Usamos el ID del servicio que se está editando
     const [editId, setEditId] = useState(null); 
-    
     const [editData, setEditData] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    
-    // CAMBIO CLAVE: Usamos el ID del servicio cuyo presupuesto está abierto
     const [showBudgetId, setShowBudgetId] = useState(null); 
 
     // Carga inicial de clientes y servicios
     useEffect(() => {
-        // ... (Tu código de carga de clientes y servicios permanece igual)
         fetch("http://localhost:3001/clientes")
             .then((res) => res.json())
             .then((data) => {
@@ -74,27 +69,26 @@ function ServiciosAdmin() {
         return { subtotal, iva: 0, total: subtotal };
     };
 
-    // FUNCIÓN: Alternar el presupuesto (Ahora usa el ID)
     const toggleBudget = (id) => {
         setShowBudgetId(showBudgetId === id ? null : id);
     };
     
-    // ... (handlePresupuestoChange, addPresupuestoItem, removePresupuestoItem, handleGeneralChange, handleClienteSelect, handleSubmit permanecen iguales ya que no dependen del índice) ...
-
     // ----------------------------------------
-    // Form nuevo servicio (Lógica de Presupuesto)
+    // Form nuevo servicio (Lógica de Presupuesto y Cambios Generales)
     // ----------------------------------------
     const handlePresupuestoChange = (index, e) => {
         const { name, value } = e.target;
+        const newValue = name === "costo" && value !== "" ? Number(value) : value; 
+        
         const newItems = formData.presupuesto.items.map((item, i) =>
-            i === index ? { ...item, [name]: name === "costo" ? Number(value) : value } : item
+            i === index ? { ...item, [name]: newValue } : item
         );
         const { subtotal, iva, total } = calcularTotal(newItems);
         setFormData({ ...formData, presupuesto: { items: newItems, subtotal, iva, total } });
     };
 
     const addPresupuestoItem = () => {
-        const newItems = [...formData.presupuesto.items, { descripcion: "", costo: 0 }];
+        const newItems = [...formData.presupuesto.items, { descripcion: "", costo: "" }];
         const { subtotal, iva, total } = calcularTotal(newItems);
         setFormData({ ...formData, presupuesto: { items: newItems, subtotal, iva, total } });
     };
@@ -122,38 +116,46 @@ function ServiciosAdmin() {
             return;
         }
         
-        const clienteId = formData.clienteId; 
+        const dataToSend = {
+            ...formData,
+            // ** (1) GUARDA HORA (Final):** Asegura que el valor final enviado a la DB es el momento de la creación
+            fechaEntrada: new Date().toISOString(), 
+            presupuesto: {
+                ...formData.presupuesto,
+                items: formData.presupuesto.items.map(item => ({
+                    ...item,
+                    costo: Number(item.costo) || 0
+                }))
+            }
+        };
+
+        const clienteId = dataToSend.clienteId; 
 
         try {
             // 1. CREAR EL SERVICIO
             const resServicio = await fetch("http://localhost:3001/servicios", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(dataToSend),
             });
             if (!resServicio.ok) throw new Error("Error al crear servicio");
             const nuevoServicio = await resServicio.json();
             
-            // 2. OBTENER LOS DATOS ACTUALES DEL CLIENTE
+            // 2. OBTENER Y ACTUALIZAR EL CLIENTE
             const resCliente = await fetch(`http://localhost:3001/clientes/${clienteId}`);
             if (!resCliente.ok) throw new Error("Error al obtener datos del cliente");
             const clienteActual = await resCliente.json();
-
-            // 3. ACTUALIZAR EL ARRAY serviciosRealizados del Cliente en la DB
             const nuevosServiciosRealizados = [
                 ...(clienteActual.serviciosRealizados || []),
                 nuevoServicio.id
             ];
-            
-            const resUpdateCliente = await fetch(`http://localhost:3001/clientes/${clienteId}`, {
+            await fetch(`http://localhost:3001/clientes/${clienteId}`, {
                 method: "PATCH", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ serviciosRealizados: nuevosServiciosRealizados }),
             });
             
-            if (!resUpdateCliente.ok) throw new Error("Error al actualizar el cliente");
-
-            // 4. ACTUALIZAR ESTADOS LOCALES Y NOTIFICAR
+            // 3. ACTUALIZAR ESTADOS LOCALES Y NOTIFICAR
             Swal.fire("Servicio creado", `ID ${nuevoServicio.id} registrado y asociado al cliente.`, "success");
             setServicios((prev) => [...prev, nuevoServicio]);
             setFormData(initialState);
@@ -168,18 +170,20 @@ function ServiciosAdmin() {
     // ----------------------------------------
     // Edición y eliminación
     // ----------------------------------------
-    // FUNCIÓN CORREGIDA: Ahora recibe el ID del servicio
     const handleEditClick = (serviceId) => {
         const serviceToEdit = servicios.find(s => s.id === serviceId);
         if (serviceToEdit) {
-            setEditId(serviceId); // Establece el ID que se está editando
-            // Clonar el objeto para que las ediciones no afecten el estado original
-            setEditData(JSON.parse(JSON.stringify(serviceToEdit))); 
-            // Ocultar presupuesto si estaba visible al entrar en edición
+            setEditId(serviceId); 
+            const clonedData = JSON.parse(JSON.stringify(serviceToEdit));
+            clonedData.presupuesto.items = clonedData.presupuesto.items.map(item => ({
+                ...item,
+                costo: item.costo === 0 ? "" : item.costo
+            }));
+            setEditData(clonedData); 
             setShowBudgetId(null);
         }
     };
-
+    
     const handleCancelEdit = () => {
         setEditId(null);
         setEditData(null);
@@ -187,22 +191,33 @@ function ServiciosAdmin() {
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;
-        // Convierte el valor a null si es un campo de fecha vacío (solo para fechaSalida si no es requerido)
-        const newValue = (name === "fechaSalida" && value === "") ? null : value; 
+        let newValue = value;
+        
+        // Si el usuario deja el campo vacío en fechaSalida, se guarda como null
+        if (name === "fechaSalida" && value === "") {
+            newValue = null;
+        }
+
+        // NOTA: Si el usuario edita la fechaEntrada a través del input 'date',
+        // la hora precisa que se guardó se perderá en ese campo.
+        // Asumimos que el usuario edita la fecha base y el ISO string en la DB se actualizará.
+        
         setEditData({ ...editData, [name]: newValue });
     };
 
     const handleEditPresupuestoChange = (i, e) => {
         const { name, value } = e.target;
+        const newValue = name === "costo" && value !== "" ? Number(value) : value; 
+        
         const newItems = editData.presupuesto.items.map((item, idx) =>
-            idx === i ? { ...item, [name]: name === "costo" ? Number(value) : value } : item
+            idx === i ? { ...item, [name]: newValue } : item
         );
         const { subtotal, iva, total } = calcularTotal(newItems);
         setEditData({ ...editData, presupuesto: { items: newItems, subtotal, iva, total } });
     };
 
     const addEditPresupuestoItem = () => {
-        const newItems = [...editData.presupuesto.items, { descripcion: "", costo: 0 }];
+        const newItems = [...editData.presupuesto.items, { descripcion: "", costo: "" }];
         const { subtotal, iva, total } = calcularTotal(newItems);
         setEditData({ ...editData, presupuesto: { items: newItems, subtotal, iva, total } });
     };
@@ -216,6 +231,12 @@ function ServiciosAdmin() {
     const handleSaveEdit = async () => {
         const dataToSave = JSON.parse(JSON.stringify(editData));
         
+        dataToSave.presupuesto.items = dataToSave.presupuesto.items.map(item => ({
+             ...item,
+             costo: Number(item.costo) || 0
+        }));
+        
+        // Si el estado es 'entregado' y no tiene fecha de salida, la establece con la hora actual
         if (dataToSave.estado === 'entregado' && !dataToSave.fechaSalida) {
             dataToSave.fechaSalida = new Date().toISOString(); 
         } 
@@ -229,12 +250,11 @@ function ServiciosAdmin() {
             if (!res.ok) throw new Error("Error al guardar cambios");
             const updated = await res.json();
             
-            // Reemplaza el servicio en el array original 'servicios' por su ID
             setServicios(prevServicios => prevServicios.map(s => 
                 s.id === updated.id ? updated : s
             ));
             
-            setEditId(null); // Limpiamos el ID de edición
+            setEditId(null); 
             setEditData(null);
             Swal.fire("Actualizado", `Servicio ${updated.id} guardado.`, "success");
         } catch (err) {
@@ -259,14 +279,11 @@ function ServiciosAdmin() {
             // --- LÓGICA DE DESVINCULACIÓN DEL CLIENTE ---
             if (servicioAEliminar) {
                 const clienteId = servicioAEliminar.clienteId;
-                
                 const resCliente = await fetch(`http://localhost:3001/clientes/${clienteId}`);
                 const clienteActual = await resCliente.json();
-                
                 const nuevosServiciosRealizados = (clienteActual.serviciosRealizados || []).filter(
                     servicioId => servicioId !== id
                 );
-                
                 await fetch(`http://localhost:3001/clientes/${clienteId}`, {
                     method: "PATCH", 
                     headers: { "Content-Type": "application/json" },
@@ -287,11 +304,10 @@ function ServiciosAdmin() {
         }
     };
 
+
     // ----------------------------------------
     // Filtrado y Ordenamiento
     // ----------------------------------------
-    
-    // 1. FILTRADO
     const serviciosFiltrados = servicios.filter((s) => {
         const query = searchQuery.toLowerCase();
         const cliente = clientes.find(c => c.value === s.clienteId)?.label || "";
@@ -303,8 +319,6 @@ function ServiciosAdmin() {
         );
     });
 
-    // 2. ORDENAMIENTO (Descendente por ID para que el más nuevo esté primero)
-    // Usamos el operador spread `...` para clonar el array antes de ordenarlo
     const serviciosOrdenados = [...serviciosFiltrados].sort((a, b) => b.id - a.id);
 
     return (
@@ -312,7 +326,7 @@ function ServiciosAdmin() {
             <div className="servicios-container">
                 <h2>Creación de Nuevo Servicio 🛠️</h2>
 
-                {/* FORMULARIO NUEVO SERVICIO (sin cambios) */}
+                {/* FORMULARIO NUEVO SERVICIO */}
                 <form className="servicio-form" onSubmit={handleSubmit}>
                     <fieldset className="seccion-form">
                         <legend>Datos del Cliente y Producto</legend>
@@ -337,9 +351,11 @@ function ServiciosAdmin() {
                         
                         <label>Fecha de Entrada:</label>
                         <input 
+                            // ** (2) FORMULARIO:** Usa tipo="date" para ocultar la hora
                             type="date" 
                             name="fechaEntrada" 
-                            value={formData.fechaEntrada} 
+                            // Muestra solo la fecha (YYYY-MM-DD)
+                            value={formData.fechaEntrada ? formData.fechaEntrada.split('T')[0] : ''} 
                             onChange={handleGeneralChange} 
                             required 
                         />
@@ -351,7 +367,7 @@ function ServiciosAdmin() {
                             <div key={i} className="presupuesto-item">
                                 <input type="text" name="descripcion" placeholder="Descripción" value={item.descripcion} onChange={(e) => handlePresupuestoChange(i, e)} />
                                 <input type="number" name="costo" placeholder="Costo" value={item.costo} onChange={(e) => handlePresupuestoChange(i, e)} />
-                                <button type="button" onClick={() => removePresupuestoItem(i)}>&times;</button>
+                                <button type="button" onClick={() => removePresupuestoItem(i)} className="btn-remove-item">&times;</button>
                             </div>
                         ))}
                         <button type="button" onClick={addPresupuestoItem}>+ Agregar ítem</button>
@@ -364,12 +380,12 @@ function ServiciosAdmin() {
                     <button type="submit" className="btn-primary-servicio">Registrar Nuevo Servicio 🚀</button>
                 </form>
 
-                {/* BOTÓN MOSTRAR/OCULTAR SERVICIOS (sin cambios) */}
+                {/* BOTÓN MOSTRAR/OCULTAR SERVICIOS */}
                 <button className="btn-toggle-lista-servicios" onClick={() => setShowListaServicios(!showListaServicios)}>
                     {showListaServicios ? "Ocultar Servicios" : "Mostrar Servicios"}
                 </button>
 
-                {/* BUSCADOR (sin cambios) */}
+                {/* BUSCADOR */}
                 {showListaServicios && (
                     <div className="buscador-servicios">
                         <input
@@ -385,18 +401,11 @@ function ServiciosAdmin() {
                 {showListaServicios && (
                     <div className="servicios-lista-wrapper">
                         <div className="servicios-lista-cards">
-                            {/* CAMBIO CLAVE: Iteramos sobre serviciosOrdenados */}
                             {serviciosOrdenados.map((s) => {
                                 const clienteNombre = clientes.find(c => c.value === s.clienteId)?.label || "Cliente desconocido";
-                                
-                                // CAMBIO CLAVE: Comparamos s.id con editId
                                 const isEditing = editId === s.id; 
-                                
-                                // CAMBIO CLAVE: Comparamos s.id con showBudgetId
                                 const isBudgetOpen = showBudgetId === s.id; 
-                                
                                 const qrUrl = `${URL_BASE_PUBLICA}/seguimiento/${s.id}`;
-                                // console.log(`URL del Servicio ${s.id}: ${qrUrl}`); // Lo comentamos para limpiar la consola
 
                                 return (
                                     <div 
@@ -407,14 +416,13 @@ function ServiciosAdmin() {
                                             <h4>ID: {s.id}</h4>
                                             <QRCodeSVG value={qrUrl} size={80} /> 
                                         </div>
-                                        {/* CAMBIO CLAVE: Ahora preguntamos si el ID es igual al ID de edición */}
                                         {isEditing ? (
                                             <>
-                                                {/* MODO EDICIÓN (sigue usando editData, que es correcto) */}
+                                                {/* MODO EDICIÓN */}
                                                 <label>Cliente:</label>
                                                 <select name="clienteId" value={editData.clienteId} onChange={handleEditChange}>
                                                     {clientes.map(c => (
-                                                        <option key={c.value} value={c.value}>{c.label}</option>
+                                                         <option key={c.value} value={c.value}>{c.label}</option>
                                                     ))}
                                                 </select>
                                                 <label>Marca Producto:</label>
@@ -422,7 +430,7 @@ function ServiciosAdmin() {
                                                 <label>Tipo de Servicio:</label>
                                                 <select name="tipoServicio" value={editData.tipoServicio} onChange={handleEditChange}>
                                                     {TIPO_SERVICIO_OPTIONS.map((o) => (
-                                                        <option key={o.value} value={o.value}>{o.label}</option>
+                                                         <option key={o.value} value={o.value}>{o.label}</option>
                                                     ))}
                                                 </select>
                                                 <label>Detalles:</label>
@@ -430,14 +438,16 @@ function ServiciosAdmin() {
                                                 <label>Estado:</label>
                                                 <select name="estado" value={editData.estado} onChange={handleEditChange}>
                                                     {ESTADO_OPTIONS.map((o) => (
-                                                        <option key={o.value} value={o.value}>{o.label}</option>
+                                                         <option key={o.value} value={o.value}>{o.label}</option>
                                                     ))}
                                                 </select>
                                                 
                                                 <label>Fecha de Entrada:</label>
                                                 <input 
+                                                    // ** (2) FORMULARIO:** Usa tipo="date" en edición
                                                     type="date" 
                                                     name="fechaEntrada" 
+                                                    // Muestra solo la fecha (YYYY-MM-DD)
                                                     value={editData.fechaEntrada ? editData.fechaEntrada.split('T')[0] : ''} 
                                                     onChange={handleEditChange} 
                                                     required
@@ -454,16 +464,16 @@ function ServiciosAdmin() {
                                                 <fieldset className="presupuesto-section">
                                                     <legend>Presupuesto</legend>
                                                     {editData.presupuesto.items.map((item, idx) => (
-                                                        <div key={idx} className="presupuesto-item">
-                                                            <input type="text" name="descripcion" placeholder="Descripción" value={item.descripcion} onChange={(e) => handleEditPresupuestoChange(idx, e)} />
-                                                            <input type="number" name="costo" placeholder="Costo" value={item.costo} onChange={(e) => handleEditPresupuestoChange(idx, e)} />
-                                                            <button type="button" onClick={() => removeEditPresupuestoItem(idx)}>&times;</button>
-                                                        </div>
+                                                         <div key={idx} className="presupuesto-item">
+                                                             <input type="text" name="descripcion" placeholder="Descripción" value={item.descripcion} onChange={(e) => handleEditPresupuestoChange(idx, e)} />
+                                                             <input type="number" name="costo" placeholder="Costo" value={item.costo} onChange={(e) => handleEditPresupuestoChange(idx, e)} />
+                                                             <button type="button" onClick={() => removeEditPresupuestoItem(idx)} className="btn-remove-item">&times;</button>
+                                                         </div>
                                                     ))}
                                                     <button type="button" onClick={addEditPresupuestoItem}>+ Agregar ítem</button>
                                                     <div className="presupuesto-resumen">
-                                                        <p>Subtotal: ${editData.presupuesto.subtotal.toFixed(2)}</p>
-                                                        <p>Total: ${editData.presupuesto.total.toFixed(2)}</p>
+                                                         <p>Subtotal: ${editData.presupuesto.subtotal.toFixed(2)}</p>
+                                                         <p>Total: ${editData.presupuesto.total.toFixed(2)}</p>
                                                     </div>
                                                 </fieldset>
 
@@ -480,8 +490,14 @@ function ServiciosAdmin() {
                                                 <p><strong>Tipo:</strong> {TIPO_SERVICIO_OPTIONS.find(o => o.value === s.tipoServicio)?.label || s.tipoServicio}</p>
                                                 <p><strong>Estado:</strong> {ESTADO_OPTIONS.find(o => o.value === s.estado)?.label || s.estado}</p>
                                                 
-                                                {/* Las fechas deben ser convertidas de nuevo para mostrarse correctamente, usando el formato ISO. */}
-                                                <p><strong>Entrada:</strong> {s.fechaEntrada ? new Date(s.fechaEntrada).toLocaleDateString() : 'N/A'}</p>
+                                                <p>
+                                                    <strong>Entrada:</strong> 
+                                                    {s.fechaEntrada 
+                                                        // ** (3) VISUALIZACIÓN:** Muestra solo la fecha y usa 'T12:00:00' para prevenir el rollback de la zona horaria
+                                                        ? new Date(s.fechaEntrada.split('T')[0] + 'T12:00:00').toLocaleDateString() 
+                                                        : 'N/A'
+                                                    }
+                                                </p>
                                                 {s.fechaSalida && (
                                                     <p><strong>Entrega:</strong> {new Date(s.fechaSalida).toLocaleDateString()}</p>
                                                 )}
@@ -489,29 +505,25 @@ function ServiciosAdmin() {
                                                 {/* Botón de Presupuesto Desplegable */}
                                                 <button 
                                                     className="btn-toggle-presupuesto"
-                                                    // CAMBIO CLAVE: Le pasamos el ID del servicio
                                                     onClick={() => toggleBudget(s.id)} 
                                                 >
                                                     <span className="resumen-total">
-                                                        Total Presupuesto: <strong>${s.presupuesto.total.toFixed(2)}</strong>
+                                                         Total Presupuesto: <strong>${s.presupuesto.total.toFixed(2)}</strong>
                                                     </span>
-                                                    {/* CAMBIO CLAVE: Comparamos s.id con showBudgetId */}
                                                     <span className="toggle-icon">{isBudgetOpen ? '▲' : '▼'}</span>
                                                 </button>
 
                                                 {/* Contenido del Presupuesto (Renderizado Condicional) */}
-                                                {/* CAMBIO CLAVE: Usamos isBudgetOpen */}
                                                 {isBudgetOpen && (
-                                                    <fieldset className="presupuesto-oculto-detalle">
-                                                        <legend>Detalle Ítems</legend>
-                                                        {s.presupuesto.items.map((item, idx) => (
-                                                            <p key={idx}>{item.descripcion} <span className="costo-detalle">${item.costo.toFixed(2)}</span></p>
-                                                        ))}
-                                                    </fieldset>
+                                                     <fieldset className="presupuesto-oculto-detalle">
+                                                         <legend>Detalle Ítems</legend>
+                                                         {s.presupuesto.items.map((item, idx) => (
+                                                              <p key={idx}>{item.descripcion} <span className="costo-detalle">${item.costo.toFixed(2)}</span></p>
+                                                         ))}
+                                                     </fieldset>
                                                 )}
                                                 
                                                 <div className="acciones-servicio">
-                                                    {/* CAMBIO CLAVE: Le pasamos el ID del servicio */}
                                                     <button onClick={() => handleEditClick(s.id)} className="btn-edit-servicio">Editar</button>
                                                     <button onClick={() => handleDeleteServicio(s.id)} className="btn-delete-servicio">Eliminar</button>
                                                 </div>

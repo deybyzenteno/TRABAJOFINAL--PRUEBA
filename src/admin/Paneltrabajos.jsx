@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Swal from "sweetalert2";
-import ModalDetalles from "./ModalDetalles"; 
+import ModalDetalles from "./ModalDetalles";
+import { useNavigate } from 'react-router-dom'; // 👈 1. Importar useNavigate
 import './Paneltrabajos.css';
 
-const API_URL = "http://localhost:3001"; 
+const API_URL = "http://localhost:3001";
 
 const ESTADO_OPTIONS = [
   { value: "pendiente", label: "Pendiente" },
@@ -29,6 +30,8 @@ const PanelTrabajo = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [servicioSeleccionado, setServicioSeleccionado] = useState(null);
   const [filtroEstado, setFiltroEstado] = useState("todos");
+
+  const navigate = useNavigate(); // 👈 2. Declarar useNavigate
 
   const cargarDatos = useCallback(async () => {
     setIsLoading(true);
@@ -65,7 +68,7 @@ const PanelTrabajo = () => {
     (a, b) => new Date(b.fechaEntrada) - new Date(a.fechaEntrada)
   );
 
-  // 💡 Cálculo de Conteos por Estado
+  // Cálculo de Conteos por Estado (se mantiene)
   const conteosEstado = useMemo(() => {
     const counts = {
       todos: serviciosActivos.length,
@@ -90,7 +93,7 @@ const PanelTrabajo = () => {
     return counts;
   }, [serviciosActivos]);
 
-  // 🔄 Lógica de filtrado actualizada
+  // Lógica de filtrado (se mantiene)
   const serviciosFiltrados = serviciosOrdenados.filter((s) => {
     const query = searchQuery.toLowerCase();
     const clienteNombre = getClienteName(s.clienteId, clientes).toLowerCase();
@@ -98,7 +101,6 @@ const PanelTrabajo = () => {
       s.id.toString().includes(query) || clienteNombre.includes(query);
 
     let coincideFiltro = true;
-
     if (filtroEstado !== "todos") {
       switch (filtroEstado) {
         case "pendiente":
@@ -113,42 +115,38 @@ const PanelTrabajo = () => {
         case "listoParaEntrega":
           coincideFiltro = s.estado === "terminado";
           break;
-        // El caso 'terminado' se puede mantener para un filtro que agrupe "En Reparación" y "Listo para Entrega" si fuera necesario
-        // case "terminado":
-        //   coincideFiltro = s.estado === "terminado" || s.estado === "revisionTerminada";
-        //   break;
         default:
           coincideFiltro = true;
           break;
       }
     }
-
     return coincideBusqueda && coincideFiltro;
   });
+  // Las funciones handleVerDetalles y handleGuardarEdicion se mantienen...
+  const handleVerDetalles = (servicio) => {
+    setServicioSeleccionado(servicio);
+    setModalOpen(true);
+  };
 
-  const handleVerDetalles = (servicio) => {
-    setServicioSeleccionado(servicio);
-    setModalOpen(true);
-  };
+  const handleGuardarEdicion = async (idServicio, datosEditados) => {
+    try {
+      const res = await fetch(`${API_URL}/servicios/${idServicio}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datosEditados),
+      });
+      if (!res.ok) throw new Error("Error al guardar la edición");
 
-  const handleGuardarEdicion = async (idServicio, datosEditados) => {
-    try {
-      const res = await fetch(`${API_URL}/servicios/${idServicio}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datosEditados),
-      });
-      if (!res.ok) throw new Error("Error al guardar la edición");
+      Swal.fire("Actualizado", `Servicio ${idServicio} editado.`, "success");
+      cargarDatos();
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error al guardar edición:", error);
+      Swal.fire("Error", "No se pudo guardar la edición.", "error");
+    }
+  };
 
-      Swal.fire("Actualizado", `Servicio ${idServicio} editado.`, "success");
-      cargarDatos();
-      setModalOpen(false);
-    } catch (error) {
-      console.error("Error al guardar edición:", error);
-      Swal.fire("Error", "No se pudo guardar la edición.", "error");
-    }
-  };
-
+  // 🚨 Función de Entrega modificada para redirigir 🚨
   const handleEntregarServicio = async (idServicio) => {
     const confirm = await Swal.fire({
       title: "¿Confirmar Entrega?",
@@ -164,7 +162,7 @@ const PanelTrabajo = () => {
     const fechaSalida = new Date().toISOString();
     const datosActualizados = {
       fechaSalida,
-      estado: "entregado",
+      estado: "entregado", // 👈 Esto lo elimina del panel porque ya no es "activo"
     };
 
     try {
@@ -178,6 +176,10 @@ const PanelTrabajo = () => {
 
       Swal.fire("¡Entregado!", `El servicio ${idServicio} fue entregado.`, "success");
       cargarDatos();
+      
+      // 👈 3. Redirigir al historial después del éxito
+      // navigate('/historial'); 
+      
     } catch (error) {
       console.error("Error al completar la entrega:", error);
       Swal.fire("Error", "No se pudo completar la entrega.", "error");
@@ -188,8 +190,7 @@ const PanelTrabajo = () => {
 
   return (
     <div className="panel-trabajo-container">
-      
-      {/* 🔽 Filtros de estado con conteo */}
+      {/* 🔽 Filtros de estado con conteo (Se mantiene) */}
       <div className="filtros-container">
         <button
           className={`filtro-btn ${filtroEstado === "todos" ? "activo" : ""}`}
@@ -223,7 +224,7 @@ const PanelTrabajo = () => {
         </button>
       </div>
 
-      {/* 🔎 Buscador */}
+      {/* 🔎 Buscador (Se mantiene) */}
       <div className="panel-buscador">
         <input
           type="text"
@@ -233,7 +234,7 @@ const PanelTrabajo = () => {
         />
       </div>
 
-      {/* 🔽 Lista */}
+      {/* 🔽 Lista (Se mantiene) */}
       <div className="servicios-lista">
         {serviciosFiltrados.length === 0 ? (
           <p className="mensaje-vacio">🎉 ¡No hay trabajos con el filtro/búsqueda actual! 🎉</p>

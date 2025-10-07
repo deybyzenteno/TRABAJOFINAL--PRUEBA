@@ -14,8 +14,9 @@ const TIPO_SERVICIO_OPTIONS = [
     { value: "otros", label: "Otros" },
 ];
 
-// Función Helper para calcular el total del presupuesto (copiada de tu ServiciosAdmin)
+// Función Helper para calcular el total del presupuesto
 const calcularTotal = (items) => {
+    // Usa Number(item.costo || 0) para manejar el string vacío "" como 0
     const subtotal = items.reduce((sum, item) => sum + Number(item.costo || 0), 0);
     return { subtotal, iva: 0, total: subtotal };
 };
@@ -27,7 +28,15 @@ const ModalDetalles = ({ isOpen, onClose, servicio, clientes, onSave }) => {
     useEffect(() => {
         if (servicio) {
             // Clonación profunda de los datos para no modificar el estado original
-            setEditData(JSON.parse(JSON.stringify(servicio))); 
+            const clonedData = JSON.parse(JSON.stringify(servicio));
+            
+            // Convertir 0 a "" para que el input se vea vacío
+            clonedData.presupuesto.items = clonedData.presupuesto.items.map(item => ({
+                ...item,
+                costo: item.costo === 0 ? "" : item.costo
+            }));
+            
+            setEditData(clonedData); 
         }
     }, [servicio]);
 
@@ -36,7 +45,6 @@ const ModalDetalles = ({ isOpen, onClose, servicio, clientes, onSave }) => {
     // Manejo de cambios generales (marcaProducto, detalles, estado, tipoServicio)
     const handleGeneralChange = (e) => {
         const { name, value } = e.target;
-        // Convierte las fechas a formato de cadena YYYY-MM-DDT... si son dates
         const newValue = (name === "fechaEntrada" || name === "fechaSalida") 
                          ? (value ? new Date(value).toISOString() : null)
                          : value;
@@ -47,15 +55,19 @@ const ModalDetalles = ({ isOpen, onClose, servicio, clientes, onSave }) => {
     // Manejo de cambios del presupuesto
     const handlePresupuestoChange = (index, e) => {
         const { name, value } = e.target;
+        // Si el costo es ingresado, lo trata como Number si no está vacío, sino mantiene el string ""
+        const newValue = name === "costo" && value !== "" ? Number(value) : value; 
+        
         const newItems = editData.presupuesto.items.map((item, i) =>
-            i === index ? { ...item, [name]: name === "costo" ? Number(value) : value } : item
+            i === index ? { ...item, [name]: newValue } : item
         );
         const { subtotal, iva, total } = calcularTotal(newItems);
         setEditData(prev => ({ ...prev, presupuesto: { items: newItems, subtotal, iva, total } }));
     };
 
     const addPresupuestoItem = () => {
-        const newItems = [...editData.presupuesto.items, { descripcion: "", costo: 0 }];
+        // Inicializar el costo del nuevo ítem como string vacío ""
+        const newItems = [...editData.presupuesto.items, { descripcion: "", costo: "" }];
         const { subtotal, iva, total } = calcularTotal(newItems);
         setEditData(prev => ({ ...prev, presupuesto: { items: newItems, subtotal, iva, total } }));
     };
@@ -70,13 +82,19 @@ const ModalDetalles = ({ isOpen, onClose, servicio, clientes, onSave }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // LÓGICA DE FECHA DE SALIDA/ENTREGA AUTOMÁTICA (similar a tu ServiciosAdmin)
         const dataToSave = JSON.parse(JSON.stringify(editData));
+        
+        // Antes de guardar, aseguramos que los costos vacíos ("") se conviertan a 0 para el backend
+        dataToSave.presupuesto.items = dataToSave.presupuesto.items.map(item => ({
+             ...item,
+             costo: Number(item.costo) || 0 
+        }));
+        
+        // LÓGICA DE FECHA DE SALIDA/ENTREGA AUTOMÁTICA
         if (dataToSave.estado === 'entregado' && !dataToSave.fechaSalida) {
             dataToSave.fechaSalida = new Date().toISOString(); 
         }
         
-        // Llamar a la función de guardado del componente padre
         onSave(servicio.id, dataToSave); 
     };
 
@@ -145,13 +163,14 @@ const ModalDetalles = ({ isOpen, onClose, servicio, clientes, onSave }) => {
                             <div key={i} className="presupuesto-item">
                                 <input type="text" name="descripcion" placeholder="Descripción" value={item.descripcion} onChange={(e) => handlePresupuestoChange(i, e)} />
                                 <input type="number" name="costo" placeholder="Costo" value={item.costo} onChange={(e) => handlePresupuestoChange(i, e)} />
-                                <button type="button" onClick={() => removePresupuestoItem(i)}>&times;</button>
+                                {/* CAMBIO AQUÍ: Se añade la clase para el estilo rojo y centrado */}
+                                <button type="button" onClick={() => removePresupuestoItem(i)} className="btn-remove-item">&times;</button>
                             </div>
                         ))}
                         <button type="button" onClick={addPresupuestoItem}>+ Agregar ítem</button>
                         <div className="presupuesto-resumen">
                             <p>Subtotal: ${editData.presupuesto?.subtotal?.toFixed(2) || '0.00'}</p>
-                            <p>Total: **${editData.presupuesto?.total?.toFixed(2) || '0.00'}**</p>
+                            <p>Total: ${editData.presupuesto?.total?.toFixed(2) || '0.00'}</p>
                         </div>
                     </fieldset>
                     

@@ -15,7 +15,7 @@
 
 /* --- Contenedor Principal --- */
 .panel-trabajo-container {
-    margin-top: 4rem;
+  margin-top: 4rem;
   width: 100vw;
   min-height: 100vh;
   background: rgb(22, 50, 82);
@@ -214,12 +214,12 @@
 }
 
 /* ===================== */
-/* MODAL (Reajustado y moderno) */
+/* MODAL */
 /* ===================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -229,153 +229,199 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(1.02); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modal-content {
-  background: white;
-  border-radius: 12px;
+  background: var(--color-fondo);
+  border-radius: 16px;
   width: 100%;
-  max-width: 520px;
-  max-height: 85vh;
+  max-width: 550px;
+  max-height: 90vh;
   overflow-y: auto;
-  padding: 1.2rem 1.5rem;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.25s ease;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid #e2e8f0;
+  animation: slideIn 0.3s ease;
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-8px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(-20px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 .modal-content h3 {
   text-align: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
   color: var(--color-primario);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e7ff;
 }
 
 /* Formularios */
 .modal-form label {
   display: block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #374151;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-secundario);
+  margin-bottom: 0.3rem;
 }
 
 .modal-form input,
 .modal-form select,
 .modal-form textarea {
   width: 100%;
-  padding: 0.45rem;
-  margin-top: 0.3rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  transition: border-color 0.2s;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--color-secundario);
+  background-color: white;
+  transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .modal-form input:focus,
 .modal-form select:focus,
 .modal-form textarea:focus {
-  border-color: var(--color-primario);
+  border-color: var(--color-acento);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.45), inset 0 0 0 1px var(--color-acento);
 }
 
-/* --- Fieldset y resumen --- */
+/* Fieldset y resumen */
 fieldset {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  margin-top: 1rem;
-  padding: 0.8rem 1rem;
-}
-legend {
-  padding: 0 8px;
-  font-size: 0.9rem;
-  color: var(--color-secundario);
-  font-weight: 600;
+  border: 1px solid #94a3b8;
+  border-radius: 10px;
+  margin-top: 1.2rem;
+  padding: 1rem;
+  background-color: #f8fafc;
 }
 
-/* Presupuesto */
+legend {
+  padding: 0 10px;
+  font-size: 1rem;
+  color: var(--color-primario);
+  font-weight: 700;
+}
+
+/* -------------------------------------- */
+/* Presupuesto dentro del Modal */
+/* -------------------------------------- */
 .presupuesto-item {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  align-items: center;
 }
 
 .presupuesto-item input {
   flex: 1;
+  padding: 0.4rem 0.6rem;
 }
 
-.presupuesto-item button {
+/* Botón eliminar ítem (X) - ROJO */
+.modal-content .presupuesto-item .btn-remove-item {
   border: none;
-  background: #ef4444;
-  color: white;
-  padding: 0 0.6rem;
-  border-radius: 4px;
+  background: var(--color-peligro) !important;
+  color: white !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.2rem;
   transition: background 0.2s;
-}
-.presupuesto-item button:hover {
-  background: #dc2626;
+  flex-shrink: 0;
 }
 
+.modal-content .presupuesto-item .btn-remove-item:hover {
+  background: #b91c1c !important;
+}
+
+/* Botón Añadir Ítem */
 .presupuesto-section button[type="button"] {
-  margin-top: 0.5rem;
-  background: var(--color-primario);
-  color: white;
+  margin-top: 0.8rem;
+  background: var(--color-acento);
+  color: var(--color-secundario);
   border: none;
   padding: 0.4rem 0.8rem;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.85rem;
-}
-.presupuesto-section button[type="button"]:hover {
-  background: #1d4ed8;
-}
-
-.presupuesto-resumen {
   font-size: 0.9rem;
-  margin-top: 0.8rem;
-  color: #374151;
+  font-weight: 600;
+  transition: background 0.2s;
 }
 
-/* Botones del modal */
+.presupuesto-section button[type="button"]:hover {
+  background: #0ea5e9;
+  color: white;
+}
+
+/* Resumen del Presupuesto */
+.presupuesto-resumen {
+  font-size: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #94a3b8;
+  color: var(--color-secundario);
+  font-weight: 700;
+  text-align: right;
+}
+
+.presupuesto-resumen p:last-child {
+  font-size: 1.15rem;
+  color: var(--color-primario);
+  font-weight: 800;
+  margin-top: 0.3rem;
+}
+
+/* Botones del Modal */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 1.5rem;
+  gap: 12px;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
 }
 
 .btn-guardar {
-  background-color: var(--color-primario);
+  background-color: var(--color-exito);
   color: white;
-  padding: 0.6rem 1rem;
+  padding: 0.7rem 1.2rem;
   border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
+
 .btn-guardar:hover {
-  background-color: #1d4ed8;
+  background-color: #15803d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.4);
 }
 
 .btn-cancelar {
   background-color: #6b7280;
   color: white;
-  padding: 0.6rem 1rem;
+  padding: 0.7rem 1.2rem;
   border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
 }
+
 .btn-cancelar:hover {
   background-color: #4b5563;
 }
@@ -406,9 +452,8 @@ legend {
 }
 
 /* ============================== */
-/* FILTROS DE ESTADO - MODERNOS  */
+/* FILTROS DE ESTADO - MODERNOS */
 /* ============================== */
-
 .filtros-container {
   display: flex;
   justify-content: center;
@@ -452,7 +497,6 @@ legend {
   transform: scale(0.97);
 }
 
-/* Animación sutil */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -464,7 +508,6 @@ legend {
   }
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .filtro-btn {
     padding: 0.5rem 1rem;

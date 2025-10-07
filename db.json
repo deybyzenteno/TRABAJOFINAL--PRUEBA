@@ -76,6 +76,29 @@
       "serviciosRealizados": [
         "5ac8"
       ]
+    },
+    {
+      "id": "b486",
+      "nombreCompleto": "Zenteno Deyby ",
+      "celular": "381225787",
+      "correo": "deyby@g.com",
+      "direccion": "lola mora 455",
+      "serviciosRealizados": [
+        "245b"
+      ]
+    },
+    {
+      "id": "eedb",
+      "nombreCompleto": "Caro Gabriel",
+      "celular": "56466",
+      "correo": "sdsds@dsdd",
+      "direccion": "Ex ruta 9",
+      "serviciosRealizados": [
+        "0241",
+        "34e4",
+        "c301",
+        "77b8"
+      ]
     }
   ],
   "servicios": [
@@ -104,7 +127,7 @@
         "iva": 0,
         "total": 19400
       },
-      "estado": "pendiente",
+      "estado": "revisionTerminada",
       "fechaEntrada": "2025-10-04",
       "fechaSalida": null
     },
@@ -132,7 +155,7 @@
     {
       "id": "56e7",
       "clienteId": "b1ad",
-      "marcaProducto": "5",
+      "marcaProducto": "ppp",
       "tipoServicio": "celulares",
       "detalles": "kjkj",
       "presupuesto": {
@@ -167,9 +190,9 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "pendiente",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-05",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-06T22:30:55.556Z"
     },
     {
       "id": "e557",
@@ -188,9 +211,9 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "pendiente",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-05",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-06T22:31:11.894Z"
     },
     {
       "id": "5ac8",
@@ -212,6 +235,127 @@
       "estado": "entregado",
       "fechaEntrada": "2025-10-05",
       "fechaSalida": "2025-10-06T18:50:58.200Z"
+    },
+    {
+      "id": "245b",
+      "clienteId": "b486",
+      "marcaProducto": "HP",
+      "tipoServicio": "computadora",
+      "detalles": "pantalla en azul",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "CD ",
+            "costo": 4555
+          },
+          {
+            "descripcion": "FLEX",
+            "costo": 5000
+          }
+        ],
+        "subtotal": 9555,
+        "iva": 0,
+        "total": 9555
+      },
+      "estado": "entregado",
+      "fechaEntrada": "2025-10-07",
+      "fechaSalida": "2025-10-07T08:01:08.216Z"
+    },
+    {
+      "id": "0241",
+      "clienteId": "eedb",
+      "marcaProducto": "xiaomi",
+      "tipoServicio": "celulares",
+      "detalles": "jkjk",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "entregado",
+      "fechaEntrada": "2025-10-07",
+      "fechaSalida": "2025-10-07T08:09:29.199Z"
+    },
+    {
+      "id": "34e4",
+      "clienteId": "eedb",
+      "marcaProducto": "sdsd",
+      "tipoServicio": "parlantes",
+      "detalles": "dsdsdsdsdsd",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "entregado",
+      "fechaEntrada": "2025-10-07T08:19:07.332Z",
+      "fechaSalida": "2025-10-07T08:20:25.201Z"
+    },
+    {
+      "id": "c301",
+      "clienteId": "eedb",
+      "marcaProducto": ",m,m,",
+      "tipoServicio": "celulares",
+      "detalles": "lkllk",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "entregado",
+      "fechaEntrada": "2025-10-07T08:24:06.575Z",
+      "fechaSalida": "2025-10-07T08:24:23.885Z"
+    },
+    {
+      "id": "77b8",
+      "clienteId": "eedb",
+      "marcaProducto": "ssd",
+      "tipoServicio": "celulares",
+      "detalles": "sds",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "dsds",
+            "costo": 4545
+          },
+          {
+            "descripcion": "sds",
+            "costo": 44221
+          },
+          {
+            "descripcion": "s",
+            "costo": 323
+          },
+          {
+            "descripcion": "aaa",
+            "costo": 2323
+          }
+        ],
+        "subtotal": 51412,
+        "iva": 0,
+        "total": 51412
+      },
+      "estado": "entregado",
+      "fechaEntrada": "2025-10-07T08:28:04.742Z",
+      "fechaSalida": "2025-10-07T08:28:36.986Z"
     }
   ],
   "panelTrabajos": [],
