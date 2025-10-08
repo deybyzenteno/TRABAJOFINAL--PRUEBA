@@ -441,6 +441,12 @@ la funcionalidad de edición en línea y los detalles de presupuesto.
     background: #dc2626;
     transform: translateY(-1px);
 }
+.btn-download-comprobante
+{
+    background: #0931e6;
+    color: #fff;
+    border: none; /* Asegurar que no tengan borde */
+}
 
 /* -------------------------------------- */
 /* 6.1. Estilos del Presupuesto Desplegable (Collapsible) */

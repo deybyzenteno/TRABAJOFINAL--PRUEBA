@@ -184,27 +184,6 @@
       "fechaSalida": null
     },
     {
-      "id": "e58f",
-      "clienteId": "b1ad",
-      "marcaProducto": "redmi",
-      "tipoServicio": "celulares",
-      "detalles": "njbbjbh",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "jbjbbjb",
-            "costo": 786
-          }
-        ],
-        "subtotal": 786,
-        "iva": 0,
-        "total": 786
-      },
-      "estado": "pendiente",
-      "fechaEntrada": "2025-10-08T21:22:33.503Z",
-      "fechaSalida": null
-    },
-    {
       "id": "30e4",
       "clienteId": "1",
       "marcaProducto": "samsung",
