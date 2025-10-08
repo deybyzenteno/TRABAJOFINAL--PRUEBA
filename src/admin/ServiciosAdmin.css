@@ -1,4 +1,15 @@
 /* ================================================= */
+/* -------------------- META DATA ------------------ */
+/* ================================================= */
+/*
+Autor: Gemini AI
+Fecha de Creación: 2025-10-07
+Descripción: Estilos CSS para la gestión de Servicios. 
+Incluye estilos para el formulario de creación, el listado en formato card, 
+la funcionalidad de edición en línea y los detalles de presupuesto.
+*/
+
+/* ================================================= */
 /* 1. SECCIÓN PRINCIPAL (Contenedor de alto nivel) */
 /* ================================================= */
 /* Se elimina el 100vw y se centra el contenido */
@@ -141,6 +152,11 @@
     line-height: 1;
     flex-shrink: 0;
     transition: background-color 0.2s;
+    /* CAMBIO CLAVE PARA CENTRADO */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.6rem; /* Ajuste para alinear con inputs */
 }
 
 .servicios-full .presupuesto-item .btn-remove-item:hover {
@@ -356,10 +372,8 @@
     text-align: right;
 }
 
-/* FIX CSS: Estilo del botón de remover en modo edición. 
-   Usa la misma clase para la consistencia del color rojo. */
-/* FIX CSS: Selector específico para asegurar el color rojo y centrado perfecto */
-.servicios-full .presupuesto-item .btn-remove-item { 
+/* FIX CSS: Estilo del botón de remover en modo edición. */
+.servicios-full .servicio-card.editando .presupuesto-item .btn-remove-item { 
     background-color: #ef4444; /* Rojo */
     color: white;
     border: none;
@@ -371,14 +385,14 @@
     line-height: 1; 
     flex-shrink: 0;
     transition: background-color 0.2s;
-    margin-bottom: 0.6rem;
     /* CAMBIO CLAVE PARA CENTRADO */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 0.6rem;
 }
 
-.servicios-full .presupuesto-item .btn-remove-item:hover {
+.servicios-full .servicio-card.editando .presupuesto-item .btn-remove-item:hover {
     background-color: #c73131;
 }
 
@@ -407,6 +421,7 @@
 .servicios-full .btn-edit-servicio {
     background: #fbbf24;
     color: #1e293b;
+    border: none; /* Asegurar que no tengan borde */
 }
 
 .servicios-full .btn-edit-servicio:hover {
@@ -418,41 +433,13 @@
 .servicios-full .btn-cancel-edit {
     background: #ef4444;
     color: #fff;
+    border: none; /* Asegurar que no tengan borde */
 }
 
 .servicios-full .btn-delete-servicio:hover, 
 .servicios-full .btn-cancel-edit:hover {
     background: #dc2626;
     transform: translateY(-1px);
-}
-
-/* -------------------------------------- */
-/* 7. RESPONSIVE MÓVIL */
-/* -------------------------------------- */
-@media (max-width: 768px) {
-    .servicios-full {
-        padding: 40px 0;
-    }
-    
-    .servicios-full .servicio-form,
-    .servicios-full .btn-toggle-lista-servicios,
-    .servicios-full .buscador-servicios {
-        max-width: 100%;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .servicios-full .servicios-lista-cards {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    /* Ajuste de inputs en móvil para el modo edición */
-    .servicios-full .servicio-card.editando input,
-    .servicios-full .servicio-card.editando textarea,
-    .servicios-full .servicio-card.editando select {
-        max-width: none; /* Asegurar que ocupen todo el ancho disponible */
-    }
 }
 
 /* -------------------------------------- */
@@ -521,4 +508,33 @@
 .servicios-full .presupuesto-oculto-detalle .costo-detalle {
     font-weight: 700;
     color: #312e81;
+}
+
+/* -------------------------------------- */
+/* 7. RESPONSIVE MÓVIL */
+/* -------------------------------------- */
+@media (max-width: 768px) {
+    .servicios-full {
+        padding: 40px 0;
+    }
+    
+    .servicios-full .servicio-form,
+    .servicios-full .btn-toggle-lista-servicios,
+    .servicios-full .buscador-servicios {
+        max-width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .servicios-full .servicios-lista-cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Ajuste de inputs en móvil para el modo edición */
+    .servicios-full .servicio-card.editando input,
+    .servicios-full .servicio-card.editando textarea,
+    .servicios-full .servicio-card.editando select {
+        max-width: none; /* Asegurar que ocupen todo el ancho disponible */
+    }
 }

@@ -64,7 +64,8 @@
       "direccion": "lola mora 455",
       "serviciosRealizados": [
         "2e15",
-        "56e7"
+        "56e7",
+        "8b5c"
       ]
     },
     {
@@ -121,13 +122,17 @@
           {
             "descripcion": "bateria ",
             "costo": 4400
+          },
+          {
+            "descripcion": "pin de carga",
+            "costo": 1243
           }
         ],
-        "subtotal": 19400,
+        "subtotal": 20643,
         "iva": 0,
-        "total": 19400
+        "total": 20643
       },
-      "estado": "revisionTerminada",
+      "estado": "pendiente",
       "fechaEntrada": "2025-10-04",
       "fechaSalida": null
     },
@@ -148,7 +153,7 @@
         "iva": 0,
         "total": 151510
       },
-      "estado": "enRevision",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-04",
       "fechaSalida": "2025-10-07T00:00:00.000Z"
     },
@@ -169,7 +174,7 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "enRevision",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-05",
       "fechaSalida": "2025-09-29T00:00:00.000Z"
     },
@@ -356,6 +361,27 @@
       "estado": "entregado",
       "fechaEntrada": "2025-10-07T08:28:04.742Z",
       "fechaSalida": "2025-10-07T08:28:36.986Z"
+    },
+    {
+      "id": "8b5c",
+      "clienteId": "b1ad",
+      "marcaProducto": "ghhgh",
+      "tipoServicio": "otros",
+      "detalles": "ghghgh",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "entregado",
+      "fechaEntrada": "2025-10-07T17:13:00.852Z",
+      "fechaSalida": "2025-10-07T17:13:16.480Z"
     }
   ],
   "panelTrabajos": [],
@@ -369,7 +395,7 @@
       "categoria": "celulares",
       "descripcion": "Celular gama media, pantalla AMOLED 6.4 pulgadas, 128GB, 5G.",
       "precio": 350000,
-      "stock": 5,
+      "stock": 4,
       "imagen": "https://http2.mlstatic.com/D_NQ_NP_732057-MLA70868353813_082023-O.webp"
     },
     {
@@ -378,7 +404,7 @@
       "categoria": "computadoras",
       "descripcion": "Notebook 15.6 pulgadas, Ryzen 5, 8GB RAM, 256GB SSD.",
       "precio": 650000,
-      "stock": 0,
+      "stock": 45,
       "imagen": "https://mexx-img-2019.s3.amazonaws.com/Notebook-Lenovo-V15-G4-Ryzen-7-8Gb-Ssd-512Gb-15_48341_1.jpeg"
     },
     {
@@ -387,7 +413,7 @@
       "categoria": "accesorios",
       "descripcion": "Auriculares inalámbricos Bluetooth, batería 40h.",
       "precio": 45000,
-      "stock": 12,
+      "stock": 1,
       "imagen": "https://www.jbl.com.ar/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw04061255/JBL_TUNE_510BT_Product%20Image_Hero_Black.png"
     },
     {

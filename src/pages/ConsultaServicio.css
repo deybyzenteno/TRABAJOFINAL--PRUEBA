@@ -22,7 +22,7 @@ body {
 .consulta-servicio-full {
   width: 100vw;
   min-height: 100vh;
-  background-color: var(--color-bg-light);
+  background-color: #061731;
   padding: 0;
 }
 
@@ -79,7 +79,7 @@ body {
   margin-top: 0.5rem;
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--color-text);
+  color: #fff;
   margin-bottom: 30px;
 }
 
@@ -216,7 +216,7 @@ body {
 
 .timeline-label {
   font-size: 0.8rem;
-  color: var(--color-text);
+  color: #fff;
   font-weight: 500;
 }
 
@@ -300,8 +300,27 @@ body {
   border: none;
 }
 
+/* boton de presupuesto modificado */
+.btn-primary-outline {
+    padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.btn-primary-outline{
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+}
+.btn-primary-outline:hover {
+  background-color: #0d56aa;
+}
+
+
 .btn-primary:hover {
-  background-color: #1565c0;
+  background-color: #e5e6df;
 }
 
 .btn-secondary {

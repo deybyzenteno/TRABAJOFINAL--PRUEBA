@@ -3,6 +3,31 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './ConsultaServicio.css'; // Importamos el CSS
 
+// =================================================================
+// FUNCIÓN DE UTILIDAD AÑADIDA PARA EL FORMATO DE MILES
+// =================================================================
+/**
+ * Formatea un número para usar separador de miles (punto) y decimales (coma).
+ * Específicamente para la localización española/latina.
+ * @param {number} value - El valor numérico a formatear.
+ * @returns {string} El valor formateado.
+ */
+const formatNumber = (value) => {
+    // Si el valor no es un número válido o es nulo, retorna 'Pendiente' o el valor original
+    if (value === null || value === undefined || isNaN(Number(value))) {
+        return 'Pendiente';
+    }
+    
+    const numValue = Number(value);
+    
+    // Usamos 'es-ES' o 'es-AR' para obtener el punto como separador de miles.
+    // Usamos 'minimumFractionDigits: 2' para mantener los decimales, incluso si son cero.
+    return numValue.toLocaleString('es-ES', { 
+        minimumFractionDigits: 2, 
+        maximumFractionDigits: 2 
+    });
+};
+
 // Opciones de estado mapeadas al flujo del taller
 const PASOS = {
     P1_RECIBIDO: 'pendiente', 
@@ -20,7 +45,7 @@ const ESTADO_DISPLAY = {
     diagnostico: "Diagnóstico Finalizado / Presupuesto Generado",
     presupuestoPendiente: "Presupuesto Generado (Esperando Aprobación del Cliente)",
     reparacion: "En Proceso de Reparación Activa",
-    revisionTerminada: "En Reparación  ",
+    revisionTerminada: "En Reparación  ",
     terminado: "Listo para Retirar",
     entregado: "Servicio Entregado y Cerrado",
 };
@@ -248,12 +273,13 @@ function ConsultaServicio() {
                             <p><strong>N° de Orden:</strong> SG-{servicio.id}</p>
                             <p><strong>Estado Actual:</strong> <span className={`current-status-label ${servicio.estado}`}>{ESTADO_DISPLAY[servicio.estado] || servicio.estado}</span></p>
                             <p><strong>Fecha Ingreso:</strong> {new Date(servicio.fechaEntrada).toLocaleDateString()}</p>
-                            <p><strong>Presupuesto Total:</strong> ${servicio.presupuesto?.total.toFixed(2) || 'Pendiente'}</p>
+                            {/* CAMBIO #1: Presupuesto Total en la vista principal */}
+                            <p><strong>Presupuesto Total:</strong> ${formatNumber(servicio.presupuesto?.total) || 'Pendiente'}</p>
                         </div>
 
                         <div className="action-buttons">
                             {(servicio.presupuesto?.total > 0 || servicio.estado === 'presupuestoPendiente') && (
-                                <button className="btn-primary" onClick={() => setShowPresupuestoModal(true)}>
+                                <button className="btn-primary-outline" onClick={() => setShowPresupuestoModal(true)}>
                                     Ver Presupuesto
                                 </button>
                             )}
@@ -288,13 +314,14 @@ function ConsultaServicio() {
                                 {servicio.presupuesto.items.map((item, index) => (
                                     <li key={index} className="modal-item">
                                         <span>{item.descripcion}</span>
-                                        <span>${item.costo.toFixed(2)}</span>
+                                        {/* CAMBIO #2: Costo de cada ítem del presupuesto */}
+                                        <span>${formatNumber(item.costo)}</span> 
                                     </li>
                                 ))}
                             </ul>
                         ) : (
                             !showBudgetDetails && servicio.presupuesto?.total > 0 && (
-                                <p className="budget-summary">Total: ${servicio.presupuesto.total.toFixed(2)}</p>
+                                <p className="budget-summary">Total: ${formatNumber(servicio.presupuesto.total)}</p>
                             )
                         )}
 
@@ -304,7 +331,8 @@ function ConsultaServicio() {
 
                         {servicio.presupuesto?.total > 0 && (
                             <div className="modal-total">
-                                <strong>Total General: ${servicio.presupuesto.total.toFixed(2)}</strong>
+                                {/* CAMBIO #3: Total General del presupuesto */}
+                                <strong>Total General: ${formatNumber(servicio.presupuesto.total)}</strong>
                             </div>
                         )}
                         <button onClick={() => setShowPresupuestoModal(false)} className="btn-secondary">Cerrar</button>

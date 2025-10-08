@@ -450,7 +450,7 @@
 }
 .modal-close-btn:hover {
     color: white; 
-    background-color: var(--color-primary); /* Se pone azul al pasar el mouse */
+    background-color: #ef4444; /* Se pone azul al pasar el mouse */
     border-color: var(--color-primary);
 }
 

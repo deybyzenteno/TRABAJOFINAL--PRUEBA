@@ -65,7 +65,7 @@ function App() {
             }
           />
           <Route
-            path="/admin/productos"
+            path="/admin/productosAdmin"
             element={
               <PrivateRoute role="admin">
                 <ProductosAdmin />

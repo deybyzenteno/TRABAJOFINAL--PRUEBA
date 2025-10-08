@@ -3,40 +3,148 @@ import "./clientes.css";
 import Swal from "sweetalert2";
 
 // ------------------------------------------------------------------
-// COMPONENTE MODAL DE SERVICIOS
+// NUEVO COMPONENTE MODAL DE SERVICIOS
+// Se traslada aquí desde el código que proporcionaste como referencia.
+// Nota: También podrías mover esto a su propio archivo (p. ej., ServiciosModal.jsx) 
+// y simplemente importarlo.
 // ------------------------------------------------------------------
-const ServiciosModal = ({ cliente, servicios, onClose }) => {
-    if (!cliente) return null;
+const LOCALE = 'es-AR'; // Localización para las fechas
+const TIME_OPTIONS = { 
+    hour: '2-digit', // Muestra la hora (ej: 09)
+    minute: '2-digit', // Muestra los minutos (ej: 30)
+    hour12: false // Formato 24h
+}; 
+
+// Función auxiliar para obtener la etiqueta (Label) del estado
+const getEstadoLabel = (value) => {
+    const ESTADO_OPTIONS = [
+        { value: "pendiente", label: "Pendiente" },
+        { value: "enRevision", label: "En Revisión" },
+        { value: "revisionTerminada", label: "En Reparación" },
+        { value: "terminado", label: "Listo para Entrega" },
+        { value: "entregado", label: "Entregado" },
+    ];
+    // Asegurarse de que el estado exista, si no, usa el valor original
+    return ESTADO_OPTIONS.find(o => o.value === value)?.label || (value ? value.charAt(0).toUpperCase() + value.slice(1) : 'Sin Estado');
+};
+
+// Función para formatear el valor a moneda
+const formatCurrency = (value) => {
+    if (value === null || value === undefined) return 'N/A';
+    return new Intl.NumberFormat(LOCALE, { 
+        style: 'currency', 
+        currency: 'ARS', // Asumo Pesos Argentinos o ajusta la moneda
+        minimumFractionDigits: 2 
+    }).format(Number(value));
+};
+
+// Función para formatear la fecha a 'DD/MM/YYYY a las HH:MM'
+const formatDateTime = (isoString) => {
+    if (!isoString) return 'N/A';
+    
+    try {
+        const date = new Date(isoString); 
+        // Para la fecha (y evitar el rollback de zona horaria), se puede usar un truco con la fecha "solo"
+        const dateOnly = new Date(isoString.split('T')[0] + 'T12:00:00'); 
+
+        const fecha = dateOnly.toLocaleDateString(LOCALE);
+        const hora = date.toLocaleTimeString(LOCALE, TIME_OPTIONS);
+
+        return `${fecha} a las ${hora}`;
+    } catch (e) {
+        console.error("Error al formatear fecha:", e);
+        return 'Fecha Inválida';
+    }
+};
+
+const ServiciosModal = ({ isOpen, onClose, cliente, servicios }) => {
+    // CAMBIO CLAVE: Usa 'isOpen' para el renderizado condicional inicial
+    if (!isOpen || !cliente) return null; // Elimino el chequeo de servicios.length para mostrar el mensaje de "no servicios"
+
+    // Si solo hay un servicio, ajusta el título (Aunque en este contexto siempre serán N servicios del cliente)
+    const isSingleService = servicios.length === 1 && servicios[0].id === cliente.serviciosRealizados[0];
 
     // Función auxiliar para renderizar el detalle de cada servicio
-    const renderServicioDetalle = (s) => (
-        <div key={s.id} className="servicio-item-modal">
-            <p><strong>ID Servicio:</strong> {s.id}</p>
-            <p><strong>Tipo:</strong> {s.tipoServicio}</p>
-            <p><strong>Estado:</strong> <span className={`estado-${s.estado}`}>{s.estado?.toUpperCase()}</span></p>
-            <p><strong>Fecha Entrada:</strong> {new Date(s.fechaEntrada).toLocaleDateString()}</p>
-            <p><strong>Detalles:</strong> {s.detalles}</p>
-            <p><strong>Presupuesto Total:</strong> ${s.presupuesto?.total || 'N/A'}</p>
-            <div className="modal-acciones">
-                 <button className="btn-ver-detalle-servicio">Ver Detalles (Futuro Link)</button>
+    const renderServicioDetalle = (s) => {
+        return (
+            <div key={s.id} className="servicio-item-modal">
+                <h4 className="servicio-titulo-modal">Servicio ID: {s.id} ({s.tipoServicio || 'N/A'})</h4>
+                
+                <p>
+                    <strong>Estado:</strong> 
+                    <span className={`estado-badge estado-${s.estado}`}>
+                        {getEstadoLabel(s.estado)}
+                    </span>
+                </p>
+                
+                <p>
+                    <strong>Fecha de Entrada: </strong> 
+                    {formatDateTime(s.fechaEntrada)}
+                </p>
+                
+                {s.fechaSalida && (
+                    <p>
+                        <strong>Fecha de Salida: </strong> 
+                        {formatDateTime(s.fechaSalida)}
+                    </p>
+                )}
+                
+                <div className="detalle-seccion">
+                    <h4>Detalles del Servicio</h4>
+                    <p className="detalle-contenido">{s.detalles || 'Sin descripción de detalles o falla.'}</p>
+                </div>
+
+                <div className="presupuesto-detalle">
+                    <h4>Detalle de Presupuesto</h4>
+                    {s.presupuesto?.items && s.presupuesto.items.length > 0 ? (
+                        <>
+                            {s.presupuesto.items.map((item, index) => (
+                                <p key={index} className="presupuesto-item-line">
+                                    <span>{item.descripcion}</span>
+                                    <span>{formatCurrency(Number(item.costo))}</span>
+                                </p>
+                            ))}
+                            <p className="presupuesto-total-line">
+                                <span>Total Presupuesto:</span> 
+                                <span>{formatCurrency(Number(s.presupuesto?.total || 0))}</span>
+                            </p>
+                        </>
+                    ) : (
+                        <p className="presupuesto-item-line">No se especificaron ítems en el presupuesto.</p>
+                    )}
+                    
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
     
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <button className="modal-close-btn" onClick={onClose}>&times;</button>
                 
-                <h3 className="modal-titulo">Servicios de {cliente.nombreCompleto}</h3>
+                <h3 className="modal-titulo">
+                    {/* El título se ajusta dinámicamente según la lógica del nuevo modal */}
+                    {isSingleService && servicios.length === 1 
+                        ? `Detalle de Servicio #${servicios[0].id}` 
+                        : `Historial de Servicios de ${cliente.nombreCompleto}`
+                    }
+                </h3>
                 
                 <div className="modal-body">
                     {servicios.length === 0 ? (
                         <p className="no-servicios-modal">Este cliente no tiene servicios registrados.</p>
                     ) : (
-                        <div className="servicios-lista-modal">
-                            {servicios.map(renderServicioDetalle)}
-                        </div>
+                         <>
+                            {servicios.length > 0 && (
+                                <p className="info-resumen-modal">
+                                    Se encontraron **{servicios.length}** servicio(s) asociados a este cliente.
+                                </p>
+                            )}
+                            <div className="servicios-lista-modal">
+                                {servicios.map(renderServicioDetalle)}
+                            </div>
+                         </>
                     )}
                 </div>
                 
@@ -61,7 +169,7 @@ function Clientes() {
     const [search, setSearch] = useState("");
     const [mostrarLista, setMostrarLista] = useState(false);
     
-    // ESTADOS NUEVOS para el Modal
+    // ESTADOS para el Modal
     const [modalOpen, setModalOpen] = useState(false);
     const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
     const [serviciosDetalle, setServiciosDetalle] = useState([]);
@@ -86,9 +194,10 @@ function Clientes() {
             const todosLosServicios = await res.json();
             
             // Filtramos los servicios que corresponden a los IDs del cliente
-            const serviciosFiltrados = todosLosServicios.filter(servicio => 
-                idsServicios.includes(servicio.id)
-            );
+            const serviciosFiltrados = todosLosServicios
+                .filter(servicio => idsServicios.includes(servicio.id))
+                // Opcional: Ordenar por fecha de entrada más reciente primero
+                .sort((a, b) => new Date(b.fechaEntrada) - new Date(a.fechaEntrada)); 
             
             setServiciosDetalle(serviciosFiltrados);
         } catch (error) {
@@ -106,7 +215,7 @@ function Clientes() {
     const handleOpenModal = (cliente) => {
         setClienteSeleccionado(cliente);
         fetchServiciosDetalle(cliente.serviciosRealizados);
-        setModalOpen(true);
+        setModalOpen(true); // Se establece a true
     };
 
     // Función para cerrar el modal
@@ -125,7 +234,6 @@ function Clientes() {
         });
     };
 
-    // ... (handleSubmit y handleDelete se mantienen iguales) ...
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -213,7 +321,6 @@ function Clientes() {
             }
         }
     };
-    // ... (Fin de handleSubmit y handleDelete) ...
 
     const handleEdit = (cliente) => {
         setFormData(cliente); 
@@ -314,7 +421,7 @@ function Clientes() {
                                             </p>
                                         </div>
 
-                                        {/* Botón de Historial (Ahora abre el Modal) */}
+                                        {/* Botón de Historial (Abre el nuevo Modal) */}
                                         <div className="historial-toggle-area">
                                             <button
                                                 className="btn-historial"
@@ -347,14 +454,13 @@ function Clientes() {
                 </div>
             </div>
 
-            {/* Renderizado del Modal de Servicios */}
-            {modalOpen && (
-                <ServiciosModal
-                    cliente={clienteSeleccionado}
-                    servicios={serviciosDetalle}
-                    onClose={handleCloseModal}
-                />
-            )}
+            {/* Renderizado del Modal de Servicios (AHORA USA LA PROP isOpen) */}
+            <ServiciosModal
+                isOpen={modalOpen} // CAMBIO: Usamos el nuevo estado 'modalOpen'
+                cliente={clienteSeleccionado}
+                servicios={serviciosDetalle}
+                onClose={handleCloseModal}
+            />
         </div>
     );
 }
