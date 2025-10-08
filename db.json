@@ -51,9 +51,7 @@
       "correo": "juanperez@gmail.com",
       "direccion": "Av. Siempreviva 7422",
       "serviciosRealizados": [
-        "9314",
-        "2733",
-        "e557"
+        "30e4"
       ]
     },
     {
@@ -63,9 +61,11 @@
       "correo": "sj@gmail",
       "direccion": "lola mora 455",
       "serviciosRealizados": [
-        "2e15",
-        "56e7",
-        "8b5c"
+        "95e6",
+        "af4c",
+        "a629",
+        "e58f",
+        "cb44"
       ]
     },
     {
@@ -74,9 +74,7 @@
       "celular": "646464",
       "correo": "bhjvhj@hjhj",
       "direccion": "hjhjh",
-      "serviciosRealizados": [
-        "5ac8"
-      ]
+      "serviciosRealizados": []
     },
     {
       "id": "b486",
@@ -84,9 +82,7 @@
       "celular": "381225787",
       "correo": "deyby@g.com",
       "direccion": "lola mora 455",
-      "serviciosRealizados": [
-        "245b"
-      ]
+      "serviciosRealizados": []
     },
     {
       "id": "eedb",
@@ -95,240 +91,11 @@
       "correo": "sdsds@dsdd",
       "direccion": "Ex ruta 9",
       "serviciosRealizados": [
-        "0241",
-        "34e4",
-        "c301",
         "77b8"
       ]
     }
   ],
   "servicios": [
-    {
-      "id": "9314",
-      "clienteId": "1",
-      "marcaProducto": "xiaomi",
-      "tipoServicio": "celulares",
-      "detalles": "jjbj",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "pantalla",
-            "costo": 10000
-          },
-          {
-            "descripcion": "ads",
-            "costo": 5000
-          },
-          {
-            "descripcion": "bateria ",
-            "costo": 4400
-          },
-          {
-            "descripcion": "pin de carga",
-            "costo": 1243
-          }
-        ],
-        "subtotal": 20643,
-        "iva": 0,
-        "total": 20643
-      },
-      "estado": "pendiente",
-      "fechaEntrada": "2025-10-04",
-      "fechaSalida": null
-    },
-    {
-      "id": "2e15",
-      "clienteId": "b1ad",
-      "marcaProducto": "jhjh",
-      "tipoServicio": "celulares",
-      "detalles": "jhj",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "pantalla",
-            "costo": 151510
-          }
-        ],
-        "subtotal": 151510,
-        "iva": 0,
-        "total": 151510
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-04",
-      "fechaSalida": "2025-10-07T00:00:00.000Z"
-    },
-    {
-      "id": "56e7",
-      "clienteId": "b1ad",
-      "marcaProducto": "ppp",
-      "tipoServicio": "celulares",
-      "detalles": "kjkj",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-05",
-      "fechaSalida": "2025-09-29T00:00:00.000Z"
-    },
-    {
-      "id": "2733",
-      "clienteId": "1",
-      "marcaProducto": "infinix",
-      "tipoServicio": "computadora",
-      "detalles": "dsdad",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-05",
-      "fechaSalida": "2025-10-06T22:30:55.556Z"
-    },
-    {
-      "id": "e557",
-      "clienteId": "1",
-      "marcaProducto": "dsds",
-      "tipoServicio": "celulares",
-      "detalles": "dsdsd",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-05",
-      "fechaSalida": "2025-10-06T22:31:11.894Z"
-    },
-    {
-      "id": "5ac8",
-      "clienteId": "002a",
-      "marcaProducto": "samjun",
-      "tipoServicio": "parlantes",
-      "detalles": "fhhfhfh",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-05",
-      "fechaSalida": "2025-10-06T18:50:58.200Z"
-    },
-    {
-      "id": "245b",
-      "clienteId": "b486",
-      "marcaProducto": "HP",
-      "tipoServicio": "computadora",
-      "detalles": "pantalla en azul",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "CD ",
-            "costo": 4555
-          },
-          {
-            "descripcion": "FLEX",
-            "costo": 5000
-          }
-        ],
-        "subtotal": 9555,
-        "iva": 0,
-        "total": 9555
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-07",
-      "fechaSalida": "2025-10-07T08:01:08.216Z"
-    },
-    {
-      "id": "0241",
-      "clienteId": "eedb",
-      "marcaProducto": "xiaomi",
-      "tipoServicio": "celulares",
-      "detalles": "jkjk",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-07",
-      "fechaSalida": "2025-10-07T08:09:29.199Z"
-    },
-    {
-      "id": "34e4",
-      "clienteId": "eedb",
-      "marcaProducto": "sdsd",
-      "tipoServicio": "parlantes",
-      "detalles": "dsdsdsdsdsd",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-07T08:19:07.332Z",
-      "fechaSalida": "2025-10-07T08:20:25.201Z"
-    },
-    {
-      "id": "c301",
-      "clienteId": "eedb",
-      "marcaProducto": ",m,m,",
-      "tipoServicio": "celulares",
-      "detalles": "lkllk",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "",
-            "costo": 0
-          }
-        ],
-        "subtotal": 0,
-        "iva": 0,
-        "total": 0
-      },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-07T08:24:06.575Z",
-      "fechaSalida": "2025-10-07T08:24:23.885Z"
-    },
     {
       "id": "77b8",
       "clienteId": "eedb",
@@ -348,30 +115,126 @@
           {
             "descripcion": "s",
             "costo": 323
-          },
-          {
-            "descripcion": "aaa",
-            "costo": 2323
           }
         ],
-        "subtotal": 51412,
+        "subtotal": 49089,
         "iva": 0,
-        "total": 51412
+        "total": 49089
       },
       "estado": "entregado",
       "fechaEntrada": "2025-10-07T08:28:04.742Z",
       "fechaSalida": "2025-10-07T08:28:36.986Z"
     },
     {
-      "id": "8b5c",
+      "id": "95e6",
       "clienteId": "b1ad",
-      "marcaProducto": "ghhgh",
-      "tipoServicio": "otros",
-      "detalles": "ghghgh",
+      "marcaProducto": "infinix",
+      "tipoServicio": "celulares",
+      "detalles": "llmflg",
+      "presupuesto": {
+        "items": [],
+        "subtotal": 0,
+        "iva": 0,
+        "total": 0
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:20:36.114Z",
+      "fechaSalida": null
+    },
+    {
+      "id": "af4c",
+      "clienteId": "b1ad",
+      "marcaProducto": "infinix",
+      "tipoServicio": "celulares",
+      "detalles": "llmflg",
       "presupuesto": {
         "items": [
           {
-            "descripcion": "",
+            "descripcion": "dfmkfmf",
+            "costo": 1234
+          }
+        ],
+        "subtotal": 1234,
+        "iva": 0,
+        "total": 1234
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:20:42.875Z",
+      "fechaSalida": null
+    },
+    {
+      "id": "a629",
+      "clienteId": "b1ad",
+      "marcaProducto": "infinix",
+      "tipoServicio": "celulares",
+      "detalles": "llmflg",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "dfmkfmf",
+            "costo": 1234
+          }
+        ],
+        "subtotal": 1234,
+        "iva": 0,
+        "total": 1234
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:21:03.393Z",
+      "fechaSalida": null
+    },
+    {
+      "id": "e58f",
+      "clienteId": "b1ad",
+      "marcaProducto": "redmi",
+      "tipoServicio": "celulares",
+      "detalles": "njbbjbh",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "jbjbbjb",
+            "costo": 786
+          }
+        ],
+        "subtotal": 786,
+        "iva": 0,
+        "total": 786
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:22:33.503Z",
+      "fechaSalida": null
+    },
+    {
+      "id": "30e4",
+      "clienteId": "1",
+      "marcaProducto": "samsung",
+      "tipoServicio": "celulares",
+      "detalles": "mdjdkdk",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "pantalla",
+            "costo": 3455
+          }
+        ],
+        "subtotal": 3455,
+        "iva": 0,
+        "total": 3455
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:29:45.009Z",
+      "fechaSalida": null
+    },
+    {
+      "id": "cb44",
+      "clienteId": "b1ad",
+      "marcaProducto": "samsung",
+      "tipoServicio": "celulares",
+      "detalles": "ddsdfdf",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "jhdfnkd",
             "costo": 0
           }
         ],
@@ -379,9 +242,29 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "entregado",
-      "fechaEntrada": "2025-10-07T17:13:00.852Z",
-      "fechaSalida": "2025-10-07T17:13:16.480Z"
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:37:19.811Z",
+      "fechaSalida": null
+    },
+    {
+      "id": "9ca0",
+      "clienteId": "b1ad",
+      "marcaProducto": "samsung",
+      "tipoServicio": "celulares",
+      "detalles": "effff",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "dfff1233",
+            "costo": 0
+          }
+        ],
+        "subtotal": 0,
+        "total": 0
+      },
+      "estado": "pendiente",
+      "fechaEntrada": "2025-10-08T21:50:03.325Z",
+      "fechaSalida": null
     }
   ],
   "panelTrabajos": [],
