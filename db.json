@@ -137,7 +137,7 @@
         "iva": 0,
         "total": 0
       },
-      "estado": "pendiente",
+      "estado": "revisionTerminada",
       "fechaEntrada": "2025-10-08T21:20:36.114Z",
       "fechaSalida": null
     },
@@ -184,41 +184,14 @@
       "fechaSalida": null
     },
     {
-      "id": "30e4",
-      "clienteId": "1",
-      "marcaProducto": "samsung",
-      "tipoServicio": "celulares",
-      "detalles": "mdjdkdk",
-      "presupuesto": {
-        "items": [
-          {
-            "descripcion": "pantalla",
-            "costo": 3455
-          }
-        ],
-        "subtotal": 3455,
-        "iva": 0,
-        "total": 3455
-      },
-      "estado": "pendiente",
-      "fechaEntrada": "2025-10-08T21:29:45.009Z",
-      "fechaSalida": null
-    },
-    {
       "id": "cb44",
       "clienteId": "b1ad",
       "marcaProducto": "samsung",
       "tipoServicio": "celulares",
       "detalles": "ddsdfdf",
       "presupuesto": {
-        "items": [
-          {
-            "descripcion": "jhdfnkd",
-            "costo": 0
-          }
-        ],
+        "items": [],
         "subtotal": 0,
-        "iva": 0,
         "total": 0
       },
       "estado": "pendiente",
@@ -241,9 +214,9 @@
         "subtotal": 0,
         "total": 0
       },
-      "estado": "pendiente",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-08T21:50:03.325Z",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-08T22:31:51.525Z"
     }
   ],
   "panelTrabajos": [],
