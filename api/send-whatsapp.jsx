@@ -31,7 +31,8 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         messaging_product: "whatsapp",
-        to: phone,          // ejemplo: 5493811234567
+        to: phone,     // ejemplo: 1 555 646 1480
+        
         type: "text",
         text: { body: mensaje },
       }),

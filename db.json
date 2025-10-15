@@ -302,9 +302,9 @@
         "subtotal": 45550,
         "total": 45550
       },
-      "estado": "terminado",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-15T19:14:41.689Z",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-15T20:48:49.608Z"
     },
     {
       "id": "f322",
@@ -342,9 +342,9 @@
         "subtotal": 123450,
         "total": 123450
       },
-      "estado": "terminado",
+      "estado": "entregado",
       "fechaEntrada": "2025-10-15T19:59:48.875Z",
-      "fechaSalida": null
+      "fechaSalida": "2025-10-15T20:45:47.065Z"
     }
   ],
   "panelTrabajos": [],
