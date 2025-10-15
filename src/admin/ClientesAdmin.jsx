@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./clientes.css";
+import "./Clientes.css";
 import Swal from "sweetalert2";
 
 // ------------------------------------------------------------------
