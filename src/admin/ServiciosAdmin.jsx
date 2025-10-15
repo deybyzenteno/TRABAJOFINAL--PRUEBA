@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import Select from "react-select";
 import { QRCodeSVG } from "qrcode.react";
 import { generarComprobantePDF } from "../utils/generarComprobante";
-import "./serviciosAdmin.css";
+import "./ServiciosAdmin.css";
 
 const TIPO_SERVICIO_OPTIONS = [
   { value: "celulares", label: "Celulares" },
