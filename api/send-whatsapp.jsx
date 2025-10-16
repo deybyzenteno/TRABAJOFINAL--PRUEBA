@@ -1,54 +1,39 @@
 // 📁 api/send-whatsapp.js
 export default async function handler(req, res) {
-  // Solo aceptar POST
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Método no permitido" });
   }
 
-  const { phone, mensaje } = req.body;
+  const { phoneNumber, message } = req.body;
 
-  // Validar datos
-  if (!phone || !mensaje) {
-    return res.status(400).json({ error: "Faltan datos (phone o mensaje)" });
+  if (!phoneNumber || !message) {
+    return res.status(400).json({ error: "Faltan datos: número o mensaje." });
   }
 
   try {
-    const PHONE_ID = process.env.WHATSAPP_PHONE_ID;
-    const TOKEN = process.env.WHATSAPP_TOKEN;
-
-    if (!PHONE_ID || !TOKEN) {
-      return res.status(500).json({ error: "Faltan variables de entorno en el servidor" });
-    }
-
-    // Endpoint oficial Meta v22
-    const url = `https://graph.facebook.com/v22.0/${PHONE_ID}/messages`;
-
-    const resp = await fetch(url, {
+    const response = await fetch(`https://graph.facebook.com/v20.0/${process.env.WHATSAPP_PHONE_ID}/messages`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${TOKEN}`,
+        "Authorization": `Bearer ${process.env.WHATSAPP_TOKEN}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         messaging_product: "whatsapp",
-        to: phone,     // ejemplo: 1 555 646 1480
-        
+        to: phoneNumber,
         type: "text",
-        text: { body: mensaje },
+        text: { body: message },
       }),
     });
 
-    const data = await resp.json();
+    const data = await response.json();
 
-    if (!resp.ok) {
-      console.error("❌ Error al enviar:", data);
-      return res.status(500).json({ error: data });
+    if (response.ok) {
+      return res.status(200).json({ success: true, data });
+    } else {
+      return res.status(400).json({ success: false, error: data });
     }
-
-    // ✅ Respuesta exitosa
-    return res.status(200).json({ success: true, data });
   } catch (error) {
-    console.error("⚠️ Error interno al enviar WhatsApp:", error);
-    return res.status(500).json({ error: "Error interno del servidor" });
+    console.error("Error en envío de WhatsApp:", error);
+    return res.status(500).json({ success: false, error: error.message });
   }
 }

@@ -345,6 +345,26 @@
       "estado": "entregado",
       "fechaEntrada": "2025-10-15T19:59:48.875Z",
       "fechaSalida": "2025-10-15T20:45:47.065Z"
+    },
+    {
+      "id": "2ba6",
+      "clienteId": "b486",
+      "marcaProducto": "samsung",
+      "tipoServicio": "celulares",
+      "detalles": "44kj5jortortopr",
+      "presupuesto": {
+        "items": [
+          {
+            "descripcion": "3dfghh",
+            "costo": 12340
+          }
+        ],
+        "subtotal": 12340,
+        "total": 12340
+      },
+      "estado": "terminado",
+      "fechaEntrada": "2025-10-15T21:10:10.431Z",
+      "fechaSalida": null
     }
   ],
   "panelTrabajos": [],
